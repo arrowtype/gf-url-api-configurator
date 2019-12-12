@@ -1,6 +1,6 @@
 ---
 layout: layouts/base.njk
-title: work in progress
+title: URL CONFIG WIP
 ---
 {# <h1>This is global data: {{siteData.name}}</h1> #}
 
@@ -17,16 +17,16 @@ title: work in progress
     <h4>wght</h4>
     <div class="subset-type">
       <input type="radio" id="wght_subset__range"
-       name="wght-subset-type" value="range" >
+       name="wght-subset-type" value="range"  checked>
       <label for="wght_subset__range">Range</label>
 
       <input type="radio" id="wght_subset__pinned"
-       name="wght-subset-type" value="pinned" checked>
+       name="wght-subset-type" value="pinned" >
       <label for="wght_subset__pinned">Pinned</label>
     </div>
   </div>
   
-  <div class="subset-controls" data-subset-type="pinned">
+  <div class="subset-controls" data-subset-type="range">
     <div id="wght__range" class="range-controls">
       
       <div class="range-selector" data-wght-src="300" data-selected="true">300</div>
