@@ -42,65 +42,43 @@ function toggleSelectionState(e) {
 
 const rangeSelectorNodes = document.querySelectorAll(".range-selector")
 
-console.log(rangeSelectorNodes)
-
-// for (var selector of rangeSelectorNodes) {
-//   selector.addEventListener('click', toggleSelectionState)
-// }
-
-// if a range is selected
-// hovers will activate the blue in-between track and nodes between hovers
-// the next click selects the other end of the range (before or after)
-
-// let rangeCurrentlySelected = true
-
 function selectRange(e) {
   console.log("first click on selector", e.target)
   // if a user clicks any of the selectors, all get set to false 
   for (var selector of rangeSelectorNodes) {selector.dataset.selected = "false"}
-  // rangeCurrentlySelected = false
-  // if (rangeCurrentlySelected === false) {
-  //   for (var selector of rangeSelectorNodes) {selector.removeEventListener('click', selectRange)}
-  // }
-  for (var selector of rangeSelectorNodes) {selector.removeEventListener('click', selectRange)}
-  // set clicked selector true
+  // and then the clicked selector gets set to true
   e.target.dataset.selected = "true"
 
+  // temporarily removes the click 
+  for (var selector of rangeSelectorNodes) {selector.removeEventListener('mousedown', selectRange)}
+
   // wait for user to click on next target
-  function nextClick(e) {
+  document.addEventListener('mousedown', function nextClick(e) {
     console.log("click")
     console.log("closest is ", e.target.closest('#wght__range'))
     if (e.target.closest('#wght__range') === null) {
       console.log("click outside!")
+      for (var selector of rangeSelectorNodes) {selector.dataset.selected = "true"}
       } else {
       console.log("click on selector!")
       e.target.dataset.selected = "true"
-      // rangeCurrentlySelected = true
-      // addRangeListeners()
+      addRangeListeners()
     }
-    document.removeEventListener('mousedown',nextClick)
-  }
-  document.addEventListener('mousedown', nextClick)
+    // remove listener
+    document.removeEventListener('mousedown',nextClick, true)
+  })
 
-  // if user clicks outside, set all selectors to true
-
-  // return listeners to selectors
-  // for (var selector of rangeSelectorNodes) {
-  //   selector.addEventListener('click', selectRange)
-  // }
-
-
-  // UX QUESTION: do calendar range selections only work well because they must be opened, which makes it clear that a range should be selected?
 }
 
 function addRangeListeners() {
   for (var selector of rangeSelectorNodes) {
-    selector.addEventListener('click', selectRange)
+    selector.addEventListener('mousedown', selectRange)
   }
 }
 
 addRangeListeners()
 
+// UX QUESTION: do calendar range selections only work well because they must be opened, which makes it clear that a range should be selected?
 
 
 
