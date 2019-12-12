@@ -6,7 +6,6 @@ let wght = 400
 let MONO = 0
 
 function setUrl() {  
-  MONO = MONO_pinned_slider.value
 
   let result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@300..1000,0');`
   
@@ -17,7 +16,13 @@ function setUrl() {
     wght = wght_pinned_slider.value
     result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
   }
-  
+
+  if (MONOSubsetControls.dataset.subsetType === "range") {
+    result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${selectedSources[0]}..${selectedSources[1]},0..1');`
+  } else {
+    MONO = MONO_pinned_slider.value
+    result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
+  }
   
   api_call.innerHTML = result
 }
@@ -143,12 +148,12 @@ const MONOSubsetControls = document.querySelector('#MONO-control .subset-control
 
 document.getElementById("MONO_subset__range").addEventListener('input', () => {  
   MONOSubsetControls.dataset.subsetType = "range"
-
-  // TODO: set MONO range in URL
+  setUrl()
 });
 
 document.getElementById("MONO_subset__pinned").addEventListener('input', () => {
   MONOSubsetControls.dataset.subsetType = "pinned"
+  setUrl()
 });
 
 // MONO pinned slider
