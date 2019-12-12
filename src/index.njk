@@ -1,0 +1,87 @@
+---
+layout: layouts/base.njk
+title: Title Strings
+---
+{# <h1>This is global data: {{siteData.name}}</h1> #}
+
+<p>(Work in Progress)</p>
+
+<div id="controls">
+  
+ <h2>Customize</h2>
+
+<h3>Variable Axes</h3>
+
+<div id="wght-control" class="axis-control">
+  <div class="axis__header">
+    <h4>wght</h4>
+    <div class="subset-type">
+      <input type="radio" id="wght_subset__range"
+       name="wght-subset-type" value="range" >
+      <label for="wght_subset__range">Range</label>
+
+      <input type="radio" id="wght_subset__pinned"
+       name="wght-subset-type" value="pinned" checked>
+      <label for="wght_subset__pinned">Pinned</label>
+    </div>
+  </div>
+  
+  <div class="subset-controls" data-subset-type="pinned">
+    <div id="wght__range" class="range-controls">
+      
+      <div class="range-selector" data-wght-src="300" data-selected="true">300</div>
+      <div class="range-gap" data-active="true"></div>
+      <div class="range-selector" data-wght-src="800" data-selected="true">800</div>
+      <div class="range-gap" data-active="true"></div>
+      <div class="range-selector" data-wght-src="1000" data-selected="true">1000</div>
+    </div>
+
+    <div id="wght--pinned" class="pinned-controls">
+      <input type="range" id="wght--pinned__slider" name="wght-pinned" min="300" max="1000" value="400" step="5">
+      <label id="wght--pinned__label" for="wght-pinned">400</label>
+    </div>
+  </div>
+</div>
+  
+  
+
+<div class="axis-control">
+  <div class="axis__header">
+    <h4>MONO</h4>
+    <div class="subset-type">
+<!--       <input type="radio" id="MONO_subset__range"
+       name="MONO-subset-type" value="range" >
+      <label for="MONO_subset__range">Range</label> -->
+
+      <input type="radio" id="MONO_subset__pinned"
+       name="MONO-subset-type" value="pinned" checked>
+      <label for="MONO_subset__pinned">Pinned</label>
+    </div>
+  </div>
+  
+  <div class="subset-controls" data-subset-type="pinned">
+<!--     <div id="MONO__range" class="range-controls">
+      <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
+      <div class="range-gap" data-active="true"></div>
+      <div class="range-selector" data-wght-src="1" data-selected="true">1</div>
+    </div> -->
+
+    <div id="MONO--pinned" class="pinned-controls">
+      <input type="range" id="MONO--pinned__slider" name="MONO-pinned" min="0" max="1" value="0" step="0.1">
+      <label id="MONO--pinned__label" for="wght-pinned">0</label>
+    </div>
+  </div>
+</div>
+  
+</div>
+
+<!-- <h2>Languages</h2> -->
+  
+</div>
+
+<div id="preview">
+  <h2>Embed</h2>
+  <div class="code">
+    <code id="api-call">@import url('https://fonts.sandbox.google.com/css2?family=Recursive:</code>
+  </div>
+</div>

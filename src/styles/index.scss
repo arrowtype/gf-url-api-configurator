@@ -1,0 +1,130 @@
+@import '_reset.scss';
+
+@import url('https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@0..1,-15..0,300..900,0..1,0..1');
+
+:root {
+  --blue: hsl(220,100%,50%); //hsl(220,100%,50%);
+  --blue1: hsl(220,100%,60%);
+  --blue2: hsl(220,100%,70%);
+  --blue3: hsl(220,100%,80%);
+  --blue4: hsl(220,100%,90%);
+  --gray0: hsl(220,005%,20%);
+  --gray1: hsl(220,005%,40%);
+}
+
+html {
+  font-family: 'Recursive';
+  margin: 10%;
+  background: #eee;
+  display:grid;
+  justify-content: center;
+}
+
+#controls, #preview {
+  width: 100%;
+  background:white;
+  padding: 1rem;
+  max-width: 500px;
+}
+
+h3 {
+  text-transform: uppercase;
+  letter-spacing:0.02em;
+  color: var(--gray1);
+  font-size: 1rem;
+  margin:0;
+}
+
+h4 {
+  font-variation-settings: 'MONO' 1;
+  font-size: 1rem;
+  line-height: 1rem;
+  margin: 0;
+}
+
+.axis-control {
+  padding: 0 0 1rem;
+}
+
+.axis__header {
+  width: 100%;
+  display:grid;
+  align-items: center;
+  grid-template-columns: auto auto;
+/*   border: red solid 1px; */
+  border-top: gray solid 1px;
+  padding: 1rem 0;
+  justify-content:space-between;
+}
+
+.range-controls {
+  display:none; /*only visible if subset type is "range" */
+
+}
+
+[data-subset-type="range"] .range-controls {
+  display:grid;
+  grid-template-columns: min-content 1fr min-content 1fr min-content;
+  justify-content:space-between;
+}
+
+.range-controls  {
+  font-size: 14px;
+  font-weight: 500;
+  .range-selector {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    z-index:10;
+  }
+  [data-selected="true"] {
+    background: var(--blue);
+    color:white;
+    transition:0.25s;
+    
+    &:hover{
+      background: var(--blue2);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+  }
+  [data-selected="false"] {
+    background: white;
+    border: 1px solid gray;
+    color:var(--gray0);
+    transition:0.25s;
+    
+    &:hover{
+      background: var(--blue4);
+      border: 1px solid var(--blue);
+      cursor: pointer;
+    }
+  }
+  .range-gap {
+    margin-left:-2rem;
+    margin-right:-2rem;
+    background: gray;
+  }
+  [data-active="true"].range-gap {
+      background: var(--blue4);
+  }
+}
+
+
+
+
+.pinned-controls {
+    display:none;
+}
+
+[data-subset-type="pinned"] .pinned-controls {
+  width: 100%;
+  display:grid;
+  grid-template-columns: 1fr 4ch;
+  text-align:right;
+}
+
+div.code {
+  padding: 0.6rem;
+  background-color: #eee;
+}
