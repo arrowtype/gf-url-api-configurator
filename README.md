@@ -1,4 +1,4 @@
-# Deventy
+# GUAC: GF URL API2 Configurator
 
 Based on [deventy](https://github.com/ianrose/deventy), a starter for [11ty](https://www.11ty.io/).
 

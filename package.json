@@ -1,7 +1,8 @@
 {
-  "name": "deventy",
+  "name": "GF URL API2 Configurator",
   "version": "1.3.0",
-  "description": "A minimal 11ty starter with modern tools",
+  "description": "git remote add origin git@github.com:arrowtype/gf-url-api-configurator.git
+  git push -u origin master",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
