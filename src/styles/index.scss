@@ -20,6 +20,9 @@ html {
   max-width: 500px;
 }
 
+h2 {
+  font-variation-settings: "CASL" 1;
+}
 h3 {
   text-transform: uppercase;
   letter-spacing:0.02em;
@@ -29,7 +32,7 @@ h3 {
 }
 
 h4 {
-  font-variation-settings: 'MONO' 1;
+  font-variation-settings: 'MONO' 1, 'CASL' 1;
   font-size: 1rem;
   line-height: 1rem;
   margin: 0;
