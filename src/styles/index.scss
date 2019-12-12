@@ -66,15 +66,27 @@ h4 {
   display:grid;
   grid-template-columns: min-content 1fr min-content 1fr min-content;
   justify-content:space-between;
+  align-items: center;
 }
 
 .range-controls  {
   font-size: 14px;
   font-weight: 500;
+
+  &.active {
+    // background: #eee;
+
+    .range-selector:not([data-selected="true"]) {
+      // border: 1px solid var(--blue);
+      animation: pulse 1s alternate infinite;
+
+    }
+  }
+
   .range-selector {
     padding: 0.25rem 0.75rem;
     border-radius: 999px;
-    border: 1px solid transparent;
+    border: 2px solid transparent, 1px solid transparent;
     z-index:10;
   }
   [data-selected="true"] {
@@ -84,19 +96,19 @@ h4 {
     
     &:hover{
       background: var(--blue2);
-      border: 1px solid transparent;
+      border: 2px solid transparent, 1px solid transparent;
       cursor: pointer;
     }
   }
   [data-selected="false"] {
     background: white;
-    border: 1px solid gray;
+    border: 2px solid transparent, 1px solid gray;
     color:var(--gray0);
     transition:0.25s;
     
     &:hover{
       background: var(--blue4);
-      border: 1px solid var(--blue);
+      border: 1px solid transparent, 2px solid var(--blue);
       cursor: pointer;
     }
   }
@@ -104,9 +116,18 @@ h4 {
     margin-left:-2rem;
     margin-right:-2rem;
     background: gray;
+    height: 1px;
   }
   [data-active="true"].range-gap {
-      background: var(--blue4);
+      // background: var(--blue4);
+  }
+}
+
+@keyframes pulse {
+  from {
+    background-color: white;
+  } to {
+    background-color: var(--blue4);
   }
 }
 
@@ -127,4 +148,11 @@ h4 {
 div.code {
   padding: 0.6rem;
   background-color: #eee;
+  font-size: 14px;
+
+  code {
+    // font-family: 'Recursive', monospace;
+    font-family: 'Recursive';
+    font-variation-settings: 'MONO' 1;
+  }
 }
