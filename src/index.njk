@@ -45,13 +45,13 @@ title: URL CONFIG WIP
   
   
 
-<div class="axis-control">
+<div id="MONO-control" class="axis-control">
   <div class="axis__header">
     <h4>MONO</h4>
     <div class="subset-type">
-<!--       <input type="radio" id="MONO_subset__range"
+      <input type="radio" id="MONO_subset__range"
        name="MONO-subset-type" value="range" >
-      <label for="MONO_subset__range">Range</label> -->
+      <label for="MONO_subset__range">Range</label>
 
       <input type="radio" id="MONO_subset__pinned"
        name="MONO-subset-type" value="pinned" checked>
@@ -60,11 +60,13 @@ title: URL CONFIG WIP
   </div>
   
   <div class="subset-controls" data-subset-type="pinned">
-<!--     <div id="MONO__range" class="range-controls">
+    <div id="MONO__range" class="range-controls basic-range">
       <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
-      <div class="range-gap" data-active="true"></div>
+      <div class="range-gap" data-active="true">
+        <p>(Single-segment range)</p>
+      </div>
       <div class="range-selector" data-wght-src="1" data-selected="true">1</div>
-    </div> -->
+    </div>
 
     <div id="MONO--pinned" class="pinned-controls">
       <input type="range" id="MONO--pinned__slider" name="MONO-pinned" min="0" max="1" value="0" step="0.1">

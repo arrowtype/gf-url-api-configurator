@@ -52,7 +52,7 @@ function toggleSelectionState(e) {
 
 const rangeSelectorControl = document.querySelector('#wght__range') 
 console.log(rangeSelectorControl)
-const rangeSelectorNodes = document.querySelectorAll(".range-selector")
+const rangeSelectorNodes = document.querySelectorAll("#wght__range .range-selector")
 
 function selectRange(e) {
   rangeSelectorControl.classList.add("active")
@@ -135,6 +135,21 @@ wght_pinned_slider.addEventListener('input', (e) => {
 })
 
 
+
+// -----------------------------------------------------------------------------
+// MONO subset type
+
+const MONOSubsetControls = document.querySelector('#MONO-control .subset-controls')
+
+document.getElementById("MONO_subset__range").addEventListener('input', () => {  
+  MONOSubsetControls.dataset.subsetType = "range"
+
+  // TODO: set MONO range in URL
+});
+
+document.getElementById("MONO_subset__pinned").addEventListener('input', () => {
+  MONOSubsetControls.dataset.subsetType = "pinned"
+});
 
 // MONO pinned slider
 

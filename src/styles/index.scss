@@ -1,22 +1,14 @@
 @import '_reset.scss';
+@import '_vars.scss';
 
 @import url('https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@0..1,-15..0,300..1000,0..1,0..1');
 
-:root {
-  --blue: hsl(220,100%,50%); //hsl(220,100%,50%);
-  --blue1: hsl(220,100%,60%);
-  --blue2: hsl(220,100%,70%);
-  --blue3: hsl(220,100%,80%);
-  --blue4: hsl(220,100%,90%);
-  --gray0: hsl(220,005%,20%);
-  --gray1: hsl(220,005%,40%);
-}
 
 html {
   font-family: 'Recursive';
   font-size: 14px;
   margin: 10%;
-  background: #eee;
+  background: var(--offwhite);
   display:grid;
   justify-content: center;
 }
@@ -65,17 +57,17 @@ h4 {
 
 [data-subset-type="range"] .range-controls {
   display:grid;
-  grid-template-columns: min-content 1fr min-content 1fr min-content;
   justify-content:space-between;
   align-items: center;
 }
 
 .range-controls  {
+  grid-template-columns: min-content 1fr min-content 1fr min-content;
   font-size: 14px;
   font-weight: 500;
 
   &.active {
-    // background: #eee;
+    // background: var(--offwhite);
 
     .range-selector:not([data-selected="true"]) {
       // border: 1px solid var(--blue);
@@ -89,6 +81,7 @@ h4 {
     border-radius: 999px;
     border: 2px solid transparent;
     z-index:10;
+    height: 2rem;
   }
   [data-selected="true"] {
     background: var(--blue);
@@ -103,7 +96,7 @@ h4 {
   }
   [data-selected="false"] {
     background: white;
-    border: 2px solid #eee;
+    border: 2px solid var(--offwhite);
     color:var(--gray0);
     transition:0.25s;
     
@@ -115,10 +108,11 @@ h4 {
     }
   }
   .range-gap {
-    margin-left:-2rem;
-    margin-right:-2rem;
-    background: gray;
-    height: 1px;
+    margin-left:-1rem;
+    margin-right:-1rem;
+    background: var(--offwhite);
+    // height: 1px;
+    height: 2rem;
   }
   [data-active="true"].range-gap {
       // background: var(--blue4);
@@ -128,14 +122,38 @@ h4 {
 @keyframes pulse {
   from {
     // background-color: white;
-    border: 2px solid #eee;
+    border: 2px solid var(--offwhite);
   } to {
     // background-color: var(--blue4);
     border: 2px solid var(--blue2);
   }
 }
 
+.basic-range {
+  grid-template-columns: min-content 1fr min-content;
+  width: 100%;
 
+  .range-selector {
+    background: var(--gray1);
+    pointer-events: none;
+  }
+  .range-gap {
+    background: var(--offwhite);
+    height: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // font-feature-settings: "case" 1; // doesn't work with google fonts :(
+
+  p {
+    margin:0;
+    color: var(--gray1);
+  }
+  }
+}
 
 
 .pinned-controls {
@@ -151,7 +169,7 @@ h4 {
 
 div.code {
   padding: 0.6rem;
-  background-color: #eee;
+  background-color: var(--offwhite);
   font-size: 14px;
 
   code {
