@@ -60,16 +60,23 @@ function selectRange(e) {
 
   // listen for user to click on next target
   document.addEventListener('mousedown', function nextClick(e) {
+    function resetControls() {
+      for (var selector of rangeSelectorNodes) {selector.dataset.selected = "true"}
+      rangeSelectorControl.classList.remove("active")
+      document.removeEventListener('mousedown',nextClick)
+    }
     console.log("click")
     console.log("closest is ", e.target.closest('#wght__range'))
     // if user clicks outside of controller, reset to previous state
     // if (e.target.closest('#wght__range') === null) {
     if (e.target.matches('.range-selector') === false) {
       console.log("click outside!")
-      for (var selector of rangeSelectorNodes) {selector.dataset.selected = "true"}
-      rangeSelectorControl.classList.remove("active")
-      document.removeEventListener('mousedown',nextClick)
+      resetControls()
       } 
+    else if (e.target.dataset.selected === "true") {
+      console.log("click on same selector!")
+      resetControls()
+    }
     else 
       {
       console.log("click on selector!")
@@ -79,11 +86,10 @@ function selectRange(e) {
     }
     // update URL with selected elements
 
-    let selectedSources = []
-
+    
     // if 300 and 1000 are selected, also set 800 to "true"
+    let selectedSources = []
     for (var selector of rangeSelectorNodes) {
-      console.log(selector.dataset.selected)
       if (selector.dataset.selected === "true") {
         selectedSources.push(selector.dataset.wghtSrc)
       }
@@ -95,11 +101,11 @@ function selectRange(e) {
     console.log(selectedSources)
 
 
+    // re-add listeners after delay, or the setting won't stick
     window.setTimeout(function() {
       console.log("adding listeners")
       addRangeListeners();
     }, 500);
-    // remove listener
     
 
     
