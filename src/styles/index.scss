@@ -40,6 +40,7 @@ h4 {
 
 .axis-control {
   padding: 0 0 1rem;
+  
 }
 
 .axis__header {
@@ -51,6 +52,12 @@ h4 {
   border-top: gray solid 1px;
   padding: 1rem 0;
   justify-content:space-between;
+}
+
+.subset-controls {
+  min-height: 3rem;
+  display: grid;
+  align-content: center;
 }
 
 .range-controls {
