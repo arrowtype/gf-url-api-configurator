@@ -1,5 +1,5 @@
-// import list from './modules/list'
-console.log(`Hello ${list[2]}`)
+//// import list from './modules/list'
+//// console.log(`Hello ${list[2]}`)
 
 let selectedSources = [300, 1000]
 let wght = 400
