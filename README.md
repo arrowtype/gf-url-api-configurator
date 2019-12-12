@@ -1,46 +1,19 @@
 # Deventy
 
-A minimal 11ty starting point for building static websites with modern tools. Uses the CLI of each tool. Allowing a much easier upgrade path for each individual development tool.
+Based on [deventy](https://github.com/ianrose/deventy), a starter for [11ty](https://www.11ty.io/).
 
-Features:
-- [11ty](https://www.11ty.io/)
-- [Sass/SCSS](https://github.com/sass/node-sass)
-- [Webpack](https://webpack.js.org/)
-- [Babel](https://babeljs.io/)
-- [light-server](https://github.com/txchen/light-server)
-- [PostCSS](https://postcss.org/)
-- [CSSnano](https://cssnano.co/)
-- [Autoprefixer](https://github.com/postcss/autoprefixer)
+## Purpose
 
-## Getting Started
+### Ultimate purpose of this tool
 
-Install all dependencies using npm:
+Create a tool to make it easy and understandable for users to request what they want from the Google Fonts API, v2, for multi-axis variable fonts.
 
-```
-$ nvm use
-$ npm install
-```
+Here's a basic mockup of what I have in mind. It will require further iteration to fully work:
 
-### To Develop
+![Mockup of overall vision](readme-mockup.png)
 
-```
-$ npm run dev
-```
- And in debug mode:
- 
-```
-$ npm run dev:debug
-```
+This is described in more depth at https://github.com/arrowtype/recursive-minisite/issues/33.
 
-You can view the website at the given access URL:
-```
-$ light-server is listening at http://localhost:4000
-```
+### Specific purpose of this repo
 
-The local url is configured in `.lightserverrc`
-
-### To Build
-
-```
-npm run build
-```
+This is intended to be a short-use repo before I start integrating these ideas into the actual [Recursive minisite repo](https://github.com/arrowtype/recursive-minisite). This repo is basically a CodePen, but with a bit more control.
