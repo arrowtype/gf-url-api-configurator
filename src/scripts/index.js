@@ -1,5 +1,5 @@
 // import list from './modules/list'
-// console.log(`Hello ${list[2]}`)
+console.log(`Hello ${list[2]}`)
 
 let selectedSources = [300, 1000]
 let wght = 400
@@ -10,7 +10,7 @@ function setUrl() {
   let result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@300..1000,0');`
   
   if (wghtSubsetControls.dataset.subsetType === "range") {
-    console.log(selectedSources)
+    // console.log(selectedSources)
     result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${selectedSources[0]}..${selectedSources[1]},${MONO}');`
   } else {
     wght = wght_pinned_slider.value
@@ -44,24 +44,24 @@ document.getElementById("wght_subset__pinned").addEventListener('input', () => {
 // similar to a calendar date-range picker: https://fetrarij.github.io/ngx-daterangepicker-material/simple
 
 function toggleSelectionState(e) {
-  console.log(e.target)
-  console.log(e.target.dataset.selected)
+  // console.log(e.target)
+  // console.log(e.target.dataset.selected)
   if (e.target.dataset.selected === "true") {
-    console.log("it's true")
+    // console.log("it's true")
     e.target.dataset.selected = "false"
   } else {
-    console.log("it's a nope")
+    // console.log("it's a nope")
     e.target.dataset.selected = "true"
   }
 }
 
 const rangeSelectorControl = document.querySelector('#wght__range') 
-console.log(rangeSelectorControl)
+// console.log(rangeSelectorControl)
 const rangeSelectorNodes = document.querySelectorAll("#wght__range .range-selector")
 
 function selectRange(e) {
   rangeSelectorControl.classList.add("active")
-  console.log("first click on selector", e.target)
+  // console.log("first click on selector", e.target)
 
   // if a user clicks any of the selectors, all get set to false 
   for (var selector of rangeSelectorNodes) {selector.dataset.selected = "false"}
@@ -78,21 +78,21 @@ function selectRange(e) {
       rangeSelectorControl.classList.remove("active")
       document.removeEventListener('mousedown',nextClick)
     }
-    console.log("click")
-    console.log("closest is ", e.target.closest('#wght__range'))
+    // console.log("click")
+    // console.log("closest is ", e.target.closest('#wght__range'))
     // if user clicks outside of controller, reset to previous state
     if (e.target.matches('.range-selector') === false) {
-      console.log("click outside!")
+      // console.log("click outside!")
       resetControls()
       }
     // if user clicks the same selector a second time
     else if (e.target.dataset.selected === "true") {
-      console.log("click on same selector!")
+      // console.log("click on same selector!")
       resetControls()
     }
     // if user clicks a different selector 
     else {
-      console.log("click on selector!")
+      // console.log("click on selector!")
       e.target.dataset.selected = "true"
       rangeSelectorControl.classList.remove("active")
       document.removeEventListener('mousedown',nextClick)
@@ -111,7 +111,7 @@ function selectRange(e) {
 
     // re-add listeners after delay, or the setting won't stick
     window.setTimeout(function() {
-      console.log("adding listeners")
+      // console.log("adding listeners")
       addRangeListeners();
     }, 500);
   })
