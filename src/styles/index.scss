@@ -61,8 +61,7 @@ h4 {
 }
 
 .range-controls {
-  display:none; /*only visible if subset type is "range" */
-
+  display:none; // only visible if subset type is "range"
 }
 
 [data-subset-type="range"] .range-controls {
@@ -76,15 +75,15 @@ h4 {
   font-size: 14px;
   font-weight: 500;
 
-  &.active {
-    // background: var(--offwhite);
+  //// gives a background highlight to indicate the control is in use
+  // &.active {
+  //   // background: var(--offwhite);
 
-    .range-selector:not([data-selected="true"]) {
-      // border: 1px solid var(--blue);
-      // animation: pulse 0.5s alternate infinite;
-
-    }
-  }
+  //   .range-selector:not([data-selected="true"]) {
+  //     // border: 1px solid var(--blue);
+  //     // animation: pulse 0.5s alternate infinite;
+  //   }
+  // }
 
   .range-selector {
     padding: 0.25rem 0.75rem;
@@ -98,10 +97,12 @@ h4 {
     color:white;
     transition:0.25s;
     
-    &:hover{
-      background: var(--blue2);
-      border: 2px solid transparent;
-      cursor: pointer;
+    @media (hover: hover) {
+      &:hover{
+        background: var(--blue2);
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
     }
   }
   [data-selected="false"] {
@@ -110,11 +111,13 @@ h4 {
     color:var(--gray0);
     transition:0.25s;
     
-    &:hover{
-      background: var(--blue2);
-      color: white;
-      border: 2px solid var(--blue);
-      cursor: pointer;
+    @media (hover: hover) {
+      &:hover{
+        background: var(--blue2);
+        color: white;
+        border: 2px solid var(--blue);
+        cursor: pointer;
+      }
     }
   }
   .range-gap {
@@ -124,20 +127,20 @@ h4 {
     // height: 1px;
     height: 2rem;
   }
-  [data-active="true"].range-gap {
-      // background: var(--blue4);
-  }
+  // [data-active="true"].range-gap {
+  //     // background: var(--blue4);
+  // }
 }
 
-@keyframes pulse {
-  from {
-    // background-color: white;
-    border: 2px solid var(--offwhite);
-  } to {
-    // background-color: var(--blue4);
-    border: 2px solid var(--blue2);
-  }
-}
+// @keyframes pulse {
+//   from {
+//     // background-color: white;
+//     border: 2px solid var(--offwhite);
+//   } to {
+//     // background-color: var(--blue4);
+//     border: 2px solid var(--blue2);
+//   }
+// }
 
 .basic-range {
   grid-template-columns: min-content 1fr min-content;
@@ -158,10 +161,10 @@ h4 {
     justify-content: center;
     // font-feature-settings: "case" 1; // doesn't work with google fonts :(
 
-  p {
-    margin:0;
-    color: var(--gray1);
-  }
+    p {
+      margin:0;
+      color: var(--gray1);
+    }
   }
 }
 
