@@ -2,8 +2,8 @@
 //// console.log(`Hello ${list[2]}`)
 
 let selectedSources = [300, 1000]
-let wght = 400
-let MONO = 0
+// let wght = 400
+// let MONO = 0
 
 
 function setUrl() {  
@@ -11,10 +11,11 @@ function setUrl() {
   function updateUrl(result) {
     api_call.innerHTML = result
   }
-  let result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@300..1000,0');`
+  let result = ``
 
   let wghtResult = `300..1000`
   let MONOResult = `0..1`
+  let CASLResult = `0..1`
 
 
   if (wghtSubsetControls.dataset.subsetType === "range") {
@@ -34,8 +35,15 @@ function setUrl() {
     MONO = MONO_pinned_slider.value
     MONOResult = MONO
   }
+
+  if (CASLSubsetControls.dataset.subsetType === "range") {
+    CASLResult = `0..1`
+  } else {
+    CASL = CASL_pinned_slider.value
+    CASLResult = CASL
+  }
   
-  result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wghtResult},${MONOResult}');`
+  result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO,CASL@${wghtResult},${MONOResult},${CASLResult}');`
   
   api_call.innerHTML = result
 }
@@ -186,6 +194,34 @@ MONO_pinned_val.innerHTML = MONO_pinned_slider.value
 
 MONO_pinned_slider.addEventListener('input', (e) => {
   MONO_pinned_val.innerHTML = e.target.value;
+  setUrl()
+});
+
+
+
+// -----------------------------------------------------------------------------
+// CASL subset type
+
+const CASLSubsetControls = document.querySelector('#CASL-control .subset-controls')
+
+document.getElementById("CASL_subset__range").addEventListener('input', () => {  
+  CASLSubsetControls.dataset.subsetType = "range"
+  setUrl()
+});
+
+document.getElementById("CASL_subset__pinned").addEventListener('input', () => {
+  CASLSubsetControls.dataset.subsetType = "pinned"
+  setUrl()
+});
+
+// CASL pinned slider
+
+const CASL_pinned_slider = document.querySelector("#CASL--pinned__slider");
+const CASL_pinned_val = document.querySelector("#CASL--pinned__label");
+CASL_pinned_val.innerHTML = CASL_pinned_slider.value
+
+CASL_pinned_slider.addEventListener('input', (e) => {
+  CASL_pinned_val.innerHTML = e.target.value;
   setUrl()
 });
 
