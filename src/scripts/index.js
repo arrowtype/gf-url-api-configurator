@@ -8,23 +8,33 @@ let MONO = 0
 function setUrl() {  
 
   let result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@300..1000,0');`
-  
-  if (wghtSubsetControls.dataset.subsetType === "range") {
-    // console.log(selectedSources)
-    result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${selectedSources[0]}..${selectedSources[1]},${MONO}');`
-  } else {
-    wght = wght_pinned_slider.value
-    result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
-  }
 
-  if (MONOSubsetControls.dataset.subsetType === "range") {
-    result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${selectedSources[0]}..${selectedSources[1]},0..1');`
-  } else {
-    MONO = MONO_pinned_slider.value
-    result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
+  function getResult() {
+    if (wghtSubsetControls.dataset.subsetType === "range") {
+      // console.log(selectedSources)
+      selectedSources = checkSelectedSources()
+      console.log(selectedSources)
+      let wghtMin = selectedSources[0]
+      let wghtMax = selectedSources[selectedSources.length - 1]
+      console.log(wghtMax)
+      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wghtMin}..${wghtMax},${MONO}');`
+      console.log(result)
+    } else {
+      wght = wght_pinned_slider.value
+      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
+    }
+  
+    if (MONOSubsetControls.dataset.subsetType === "range") {
+      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${selectedSources[0]}..${selectedSources[1]},0..1');`
+    } else {
+      MONO = MONO_pinned_slider.value
+      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
+    }
+    return result
   }
   
-  api_call.innerHTML = result
+  
+  api_call.innerHTML = getResult()
 }
 
 // wght subset type
@@ -58,6 +68,14 @@ function toggleSelectionState(e) {
 const rangeSelectorControl = document.querySelector('#wght__range') 
 // console.log(rangeSelectorControl)
 const rangeSelectorNodes = document.querySelectorAll("#wght__range .range-selector")
+
+function checkSelectedSources() {
+  selectedSources = []
+  // check what sources are selected
+  for (var selector of rangeSelectorNodes) {if (selector.dataset.selected === "true") {selectedSources.push(parseInt(selector.dataset.wghtSrc))}}
+
+  return selectedSources
+}
 
 function selectRange(e) {
   rangeSelectorControl.classList.add("active")
@@ -98,10 +116,11 @@ function selectRange(e) {
       document.removeEventListener('mousedown',nextClick)
     }
     
-    selectedSources = []
     // check what sources are selected
-    for (var selector of rangeSelectorNodes) {if (selector.dataset.selected === "true") {selectedSources.push(parseInt(selector.dataset.wghtSrc))}}
-    
+    // selectedSources = []
+    // for (var selector of rangeSelectorNodes) {if (selector.dataset.selected === "true") {selectedSources.push(parseInt(selector.dataset.wghtSrc))}}
+    selectedSources = checkSelectedSources()
+
     // if 300 and 1000 are selected, also set 800 to "true"
     if (selectedSources.includes(300) && selectedSources.includes(1000)) {
       document.querySelector('[data-wght-src="800"]').dataset.selected = "true"
