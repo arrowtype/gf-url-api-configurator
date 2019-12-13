@@ -16,6 +16,7 @@ function setUrl() {
   let wghtResult = `300..1000`
   let MONOResult = `0..1`
   let CASLResult = `0..1`
+  let slntResult = `-15..0`
 
 
   if (wghtSubsetControls.dataset.subsetType === "range") {
@@ -42,8 +43,22 @@ function setUrl() {
     CASL = CASL_pinned_slider.value
     CASLResult = CASL
   }
+
+  if (slntSubsetControls.dataset.subsetType === "range") {
+    slntResult = `-15..0`
+  } else {
+    slnt = slnt_pinned_slider.value
+    slntResult = slnt
+  }
+
+  if (italSubsetControls.dataset.subsetType === "range") {
+    italResult = `0..1`
+  } else {
+    ital = ital_pinned_slider.value
+    italResult = ital
+  }
   
-  result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO,CASL@${wghtResult},${MONOResult},${CASLResult}');`
+  result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}');`
   
   api_call.innerHTML = result
 }
@@ -222,6 +237,59 @@ CASL_pinned_val.innerHTML = CASL_pinned_slider.value
 
 CASL_pinned_slider.addEventListener('input', (e) => {
   CASL_pinned_val.innerHTML = e.target.value;
+  setUrl()
+});
+
+// -----------------------------------------------------------------------------
+// slnt subset type
+
+const slntSubsetControls = document.querySelector('#slnt-control .subset-controls')
+
+document.getElementById("slnt_subset__range").addEventListener('input', () => {  
+  slntSubsetControls.dataset.subsetType = "range"
+  setUrl()
+});
+
+document.getElementById("slnt_subset__pinned").addEventListener('input', () => {
+  slntSubsetControls.dataset.subsetType = "pinned"
+  setUrl()
+});
+
+// slnt pinned slider
+
+const slnt_pinned_slider = document.querySelector("#slnt--pinned__slider");
+const slnt_pinned_val = document.querySelector("#slnt--pinned__label");
+slnt_pinned_val.innerHTML = slnt_pinned_slider.value
+
+slnt_pinned_slider.addEventListener('input', (e) => {
+  slnt_pinned_val.innerHTML = e.target.value;
+  setUrl()
+});
+
+
+// -----------------------------------------------------------------------------
+// ital subset type
+
+const italSubsetControls = document.querySelector('#ital-control .subset-controls')
+
+document.getElementById("ital_subset__range").addEventListener('input', () => {  
+  italSubsetControls.dataset.subsetType = "range"
+  setUrl()
+});
+
+document.getElementById("ital_subset__pinned").addEventListener('input', () => {
+  italSubsetControls.dataset.subsetType = "pinned"
+  setUrl()
+});
+
+// ital pinned slider
+
+const ital_pinned_slider = document.querySelector("#ital--pinned__slider");
+const ital_pinned_val = document.querySelector("#ital--pinned__label");
+ital_pinned_val.innerHTML = ital_pinned_slider.value
+
+ital_pinned_slider.addEventListener('input', (e) => {
+  ital_pinned_val.innerHTML = e.target.value;
   setUrl()
 });
 
