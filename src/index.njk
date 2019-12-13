@@ -41,67 +41,7 @@ title: URL CONFIG WIP
     </div>
   </div>
 
-  {# MONO AXIS CONTROLS #}
-  <div id="MONO-control" class="axis-control">
-    <div class="axis__header">
-      <h4>MONO</h4>
-      <div class="subset-type">
-        <input type="radio" id="MONO_subset__range"
-       name="MONO-subset-type" value="range" checked>
-        <label for="MONO_subset__range">Range</label>
 
-        <input type="radio" id="MONO_subset__pinned"
-       name="MONO-subset-type" value="pinned" >
-        <label for="MONO_subset__pinned">Pinned</label>
-      </div>
-    </div>
-
-    <div class="subset-controls" data-subset-type="range">
-      <div id="MONO__range" class="range-controls basic-range">
-        <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
-        <div class="range-gap" data-active="true">
-          <p>(Single-segment range)</p>
-        </div>
-        <div class="range-selector" data-wght-src="1" data-selected="true">1</div>
-      </div>
-
-      <div id="MONO--pinned" class="pinned-controls">
-        <input type="range" id="MONO--pinned__slider" name="MONO-pinned" min="0" max="1" value="0" step="0.1">
-        <label id="MONO--pinned__label" for="wght-pinned">0</label>
-      </div>
-    </div>
-  </div>
-  
-  {# CASL AXIS CONTROLS #}
-  <div id="CASL-control" class="axis-control">
-    <div class="axis__header">
-      <h4>CASL</h4>
-      <div class="subset-type">
-        <input type="radio" id="CASL_subset__range"
-       name="CASL-subset-type" value="range" checked>
-        <label for="CASL_subset__range">Range</label>
-
-        <input type="radio" id="CASL_subset__pinned"
-       name="CASL-subset-type" value="pinned" >
-        <label for="CASL_subset__pinned">Pinned</label>
-      </div>
-    </div>
-
-    <div class="subset-controls" data-subset-type="range">
-      <div id="CASL__range" class="range-controls basic-range">
-        <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
-        <div class="range-gap" data-active="true">
-          <p>(Single-segment range)</p>
-        </div>
-        <div class="range-selector" data-wght-src="1" data-selected="true">1</div>
-      </div>
-
-      <div id="CASL--pinned" class="pinned-controls">
-        <input type="range" id="CASL--pinned__slider" name="CASL-pinned" min="0" max="1" value="0" step="0.1">
-        <label id="CASL--pinned__label" for="wght-pinned">0</label>
-      </div>
-    </div>
-  </div>
   
   {# slnt AXIS CONTROLS #}
   <div id="slnt-control" class="axis-control">
@@ -120,15 +60,15 @@ title: URL CONFIG WIP
 
     <div class="subset-controls" data-subset-type="range">
       <div id="slnt__range" class="range-controls basic-range">
-        <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
+        <div class="range-selector" data-wght-src="0" data-selected="true">-15</div>
         <div class="range-gap" data-active="true">
           <p>(Single-segment range)</p>
         </div>
-        <div class="range-selector" data-wght-src="1" data-selected="true">-15</div>
+        <div class="range-selector" data-wght-src="1" data-selected="true">0</div>
       </div>
 
       <div id="slnt--pinned" class="pinned-controls">
-        <input type="range" id="slnt--pinned__slider" name="slnt-pinned" min="-15" max="0" value="0" step="0.5">
+        <input type="range" id="slnt--pinned__slider" name="slnt-pinned" min="-15" max="0" value="0" step="1">
         <label id="slnt--pinned__label" for="wght-pinned">0</label>
       </div>
     </div>
@@ -161,6 +101,68 @@ title: URL CONFIG WIP
       <div id="ital--pinned" class="pinned-controls">
         <input type="range" id="ital--pinned__slider" name="ital-pinned" min="0" max="1" value="0" step="1">
         <label id="ital--pinned__label" for="wght-pinned">0</label>
+      </div>
+    </div>
+  </div>
+
+    {# MONO AXIS CONTROLS #}
+  <div id="MONO-control" class="axis-control">
+    <div class="axis__header">
+      <h4>MONO</h4>
+      <div class="subset-type">
+        <input type="radio" id="MONO_subset__range"
+       name="MONO-subset-type" value="range" checked>
+        <label for="MONO_subset__range">Range</label>
+
+        <input type="radio" id="MONO_subset__pinned"
+       name="MONO-subset-type" value="pinned" >
+        <label for="MONO_subset__pinned">Pinned</label>
+      </div>
+    </div>
+
+    <div class="subset-controls" data-subset-type="range">
+      <div id="MONO__range" class="range-controls basic-range">
+        <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
+        <div class="range-gap" data-active="true">
+          <p>(Single-segment range)</p>
+        </div>
+        <div class="range-selector" data-wght-src="1" data-selected="true">1</div>
+      </div>
+
+      <div id="MONO--pinned" class="pinned-controls">
+        <input type="range" id="MONO--pinned__slider" name="MONO-pinned" min="0" max="1" value="0" step="1">
+        <label id="MONO--pinned__label" for="wght-pinned">0</label>
+      </div>
+    </div>
+  </div>
+  
+  {# CASL AXIS CONTROLS #}
+  <div id="CASL-control" class="axis-control">
+    <div class="axis__header">
+      <h4>CASL</h4>
+      <div class="subset-type">
+        <input type="radio" id="CASL_subset__range"
+       name="CASL-subset-type" value="range" checked>
+        <label for="CASL_subset__range">Range</label>
+
+        <input type="radio" id="CASL_subset__pinned"
+       name="CASL-subset-type" value="pinned" >
+        <label for="CASL_subset__pinned">Pinned</label>
+      </div>
+    </div>
+
+    <div class="subset-controls" data-subset-type="range">
+      <div id="CASL__range" class="range-controls basic-range">
+        <div class="range-selector" data-wght-src="0" data-selected="true">0</div>
+        <div class="range-gap" data-active="true">
+          <p>(Single-segment range)</p>
+        </div>
+        <div class="range-selector" data-wght-src="1" data-selected="true">1</div>
+      </div>
+
+      <div id="CASL--pinned" class="pinned-controls">
+        <input type="range" id="CASL--pinned__slider" name="CASL-pinned" min="0" max="1" value="0" step="1">
+        <label id="CASL--pinned__label" for="wght-pinned">0</label>
       </div>
     </div>
   </div>
