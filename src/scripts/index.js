@@ -5,36 +5,39 @@ let selectedSources = [300, 1000]
 let wght = 400
 let MONO = 0
 
-function setUrl() {  
 
+function setUrl() {  
+  
+  function updateUrl(result) {
+    api_call.innerHTML = result
+  }
   let result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@300..1000,0');`
 
-  function getResult() {
-    if (wghtSubsetControls.dataset.subsetType === "range") {
-      // console.log(selectedSources)
-      selectedSources = checkSelectedSources()
-      console.log(selectedSources)
-      let wghtMin = selectedSources[0]
-      let wghtMax = selectedSources[selectedSources.length - 1]
-      console.log(wghtMax)
-      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wghtMin}..${wghtMax},${MONO}');`
-      console.log(result)
-    } else {
-      wght = wght_pinned_slider.value
-      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
-    }
-  
-    if (MONOSubsetControls.dataset.subsetType === "range") {
-      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${selectedSources[0]}..${selectedSources[1]},0..1');`
-    } else {
-      MONO = MONO_pinned_slider.value
-      result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wght},${MONO}');`
-    }
-    return result
+  let wghtResult = `300..1000`
+  let MONOResult = `0..1`
+
+
+  if (wghtSubsetControls.dataset.subsetType === "range") {
+    selectedSources = checkSelectedSources()
+    let wghtMin = selectedSources[0]
+    let wghtMax = selectedSources[selectedSources.length - 1]
+    
+    wghtResult = `${wghtMin}..${wghtMax}`
+  } else {
+    wght = wght_pinned_slider.value
+    wghtResult = `${wght}`
+  }
+
+  if (MONOSubsetControls.dataset.subsetType === "range") {
+    MONOResult = `0..1`
+  } else {
+    MONO = MONO_pinned_slider.value
+    MONOResult = MONO
   }
   
+  result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:wght,MONO@${wghtResult},${MONOResult}');`
   
-  api_call.innerHTML = getResult()
+  api_call.innerHTML = result
 }
 
 // wght subset type
