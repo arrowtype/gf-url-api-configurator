@@ -16,3 +16,10 @@
     --CASL: 0;
     --cap-spacing: 0.025em;
   }
+
+
+*,
+*:after,
+*:before {
+  font-variation-settings: "MONO" var(--MONO), "CASL" var(--CASL);
+}
