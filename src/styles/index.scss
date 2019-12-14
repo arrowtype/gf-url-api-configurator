@@ -122,11 +122,12 @@ h4, .header4 {
   // }
 
   .range-selector {
-    padding: 0.25rem 0.75rem;
+    // padding: 0.25rem 0.75rem;
+    padding: 0.125rem 0.75rem;
+    // height: 2rem;
     border-radius: 999px;
     border: 2px solid transparent;
     z-index: 10;
-    height: 2rem;
   }
   [data-selected="true"] {
     background: var(--blue);
@@ -161,7 +162,7 @@ h4, .header4 {
     margin-right: -1rem;
     background: var(--offwhite);
     // height: 1px;
-    height: 2rem;
+    height: 100%;
   }
   // [data-active="true"].range-gap {
   //     // background: var(--blue4);
@@ -188,7 +189,6 @@ h4, .header4 {
   }
   .range-gap {
     background: var(--offwhite);
-    height: 2rem;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: var(--cap-spacing);
@@ -221,7 +221,8 @@ h4, .header4 {
 div.code {
   padding: 0.6rem;
   background-color: var(--offwhite);
-  font-size: 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
 
   code {
     // font-family: 'Recursive', monospace;
