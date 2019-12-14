@@ -207,6 +207,8 @@ h4, .header4 {
 
 .pinned-controls {
   display: none;
+  font-weight: 700;
+  color: var(--blue);
 }
 
 [data-subset-type="pinned"] .pinned-controls {
