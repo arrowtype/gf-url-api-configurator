@@ -33,7 +33,7 @@ body {
   min-height: 100vh;
   width: 350px;
   max-width: 100vw; // 300px;
-  background: white;
+  background: var(--mainBackground);
   // padding: 1rem;
   display: grid;
   grid-template-rows: 1fr min-content;
@@ -68,6 +68,14 @@ h4, .header4 {
   font-size: 1rem;
   line-height: 1rem;
   margin: 0;
+}
+
+code {
+  font-family: "Recursive";
+  --MONO: 1;
+  padding: 0.25em 0.25em;
+  background-color: var(--darkTransp);
+  font-weight: 400;
 }
 .mono {
   --MONO: 1;
@@ -132,7 +140,7 @@ h4, .header4 {
   }
   [data-selected="true"] {
     background: var(--blue);
-    color: white;
+    color: var(--mainBackground);
     transition: 0.25s;
 
     @media (hover: hover) {
@@ -144,7 +152,7 @@ h4, .header4 {
     }
   }
   [data-selected="false"] {
-    background: white;
+    background: var(--mainBackground);
     border: 2px solid var(--offwhite);
     color: var(--gray0);
     transition: 0.25s;
@@ -152,7 +160,7 @@ h4, .header4 {
     @media (hover: hover) {
       &:hover {
         background: var(--blue2);
-        color: white;
+        color: var(--mainBackground);
         border: 2px solid var(--blue);
         cursor: pointer;
       }
@@ -221,12 +229,13 @@ h4, .header4 {
 
 div.code {
   padding: 0.6rem;
-  background-color: var(--offwhite);
   font-size: 0.8rem;
   font-weight: 500;
-
+  background-color: var(--offwhite);
+  
   code {
     // font-family: 'Recursive', monospace;
+    background-color: transparent;
     font-family: "Recursive";
     font-variation-settings: "MONO" 1;
     overflow-wrap: break-word;
@@ -237,18 +246,23 @@ div.code {
 // info buttons
 
 .Box {
-  background-color: #fff;
+  background-color: var(--blue);
   border: 2px solid var(--blue);
   // border-radius: 3px;
 }
 
 .Box-header {
   background-color: var(--blue);
-  color:white;
+  color:var(--mainBackground);
   padding: 1rem;
 }
 .Box-body {
   padding: 1rem;
+  background-color: var(--mainBackground);
+}
+
+.Box-body code {
+  background-color: var(--blue4);
 }
 
 details summary {
@@ -296,7 +310,7 @@ details summary {
 }
 
 .details-reset>summary:focus::after {
-  color: white;
+  color: var(--mainBackground);
   background: var(--blue);
   border: none;
 }

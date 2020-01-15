@@ -14,21 +14,21 @@ title: URL CONFIG WIP
     <div id="wght-control" class="axis-control">
       <div class="axis__header">
           <details class="details-reset details-with-dialog mt-4">
-          <summary class="mono casl"><h4>wght</h4></summary>
+          <summary class="casl"><h4>Weight</h4></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
-                Weight
+                Weight <code>wght</code>
               </div>
               <div class="Box-body overflow-auto">
                 <p>
-                  The Weight axis controls the general thickness of letters. Its values range from 300–1000.
+                  The Weight axis makes the font lighter or bolder. Its values range from <code>300–1000</code>.
                 </p>
                 <p>
-                  It has three source locations, so it can be subset to just 300–800 or 800–1000.
+                  It can be subset to <code>300–800</code> or <code>800–1000</code>.
                 </p>
                 <p>
-                  Pin it on a 100-unit value (e.g. 300, 400, 500, etc) for a smaller but less-flexible font file.
+                  Pin it on a 100-unit value (e.g. <code>300</code>, <code>400</code>, <code>500</code>, etc) for a single-weight font file.
                 </p>
               </div>
               {# <div class="Box-footer">
@@ -74,21 +74,18 @@ title: URL CONFIG WIP
       <div class="axis__header">
         {# HEADER WITH DETAILS - based on https://github.com/github/details-dialog-element #}
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="mono casl"><h4>slnt</h4></summary>
+          <summary class="casl"><h4>Slant</h4></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
-                Slant
+                Slant <code>slnt</code>
               </div>
               <div class="Box-body overflow-auto">
                 <p>
-                  The Slant axis controls the slope of letters. Its values range from -15 to 0, which are appoximately equal to degrees. 0 is upright, while -15 being the most clockwise-slanting.
+                  The Slant axis controls the slope of letters. Its values range from -15 to 0, which are appoximately equal to degrees. 0 is upright, while -15 is the most slanted.
                 </p>
                 <p>
-                  It has two source locations, so its range cannot be subset.
-                </p>
-                <p>
-                  Pin it at 0 or -15 for a smaller but less-flexible font file.
+                  Pin it at <code>0</code> for an upright-only font or <code>-15</code> for a slanted-only font.
                 </p>
               </div>
               {# <div class="Box-footer">
@@ -130,21 +127,18 @@ title: URL CONFIG WIP
       <div class="axis__header">
         {# HEADER WITH DETAILS #}
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="mono casl"><h4>ital</h4></summary>
+          <summary class="casl"><h4>Italic</h4></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
-                Italic
+                Italic <code>ital</code>
               </div>
               <div class="Box-body overflow-auto">
                 <p>
-                  The Italic axis controls how "cursive" letters look. 0 is roman (with a normal-looking lowercase), while 1 is italic (with more-handwritten letterforms).
+                  The Italic axis controls how "cursive" letters look. 0 is “Normal” (with a normal-looking lowercase), while 1 is “Italic” (with more-handwritten letterforms).
                 </p>
                 <p>
-                  It has two source locations, so its range cannot be subset.
-                </p>
-                <p>
-                  Pin it at 0 or 1 for a smaller but less-flexible font file.
+                  Pin it at <code>0</code> for a Normal-only font or <code>1</code> for an Italic-only font.
                 </p>
               </div>
               {# <div class="Box-footer">
@@ -186,21 +180,18 @@ title: URL CONFIG WIP
       <div class="axis__header">
         {# HEADER WITH DETAILS #}
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="mono casl"><h4>MONO</h4></summary>
+          <summary class="casl"><h4>Monospace</h4></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
-                Monospace
+                Monospace <code>MONO</code>
               </div>
               <div class="Box-body overflow-auto">
                 <p>
-                  The Monospace axis controls whether letters have a natural or fixed width. 0 is "Sans" or natural-width (for general text & UI), and 1 is "Mono" or fixed-width (for code & extra-legible text).
+                  The Monospace axis controls whether letters have a natural or fixed width. 0 is “Sans” or natural-width (for general text & UI), and 1 is “Mono” or fixed-width (for code & high-legibility text).
                 </p>
                 <p>
-                  It has two source locations, so its range cannot be subset.
-                </p>
-                <p>
-                  Pin it at 0 or 1 for a smaller but less-flexible font file.
+                  Pin it at <code>0</code> for a Sans-only font or <code>1</code> for an Mono-only font.
                 </p>
               </div>
               {# <div class="Box-footer">
@@ -242,21 +233,18 @@ title: URL CONFIG WIP
       <div class="axis__header">
         {# HEADER WITH DETAILS #}
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="mono casl"><h4>CASL</h4></summary>
+          <summary class="casl"><h4>Casual</h4></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
-                Casual
+                Casual <code>CASL</code>
               </div>
               <div class="Box-body overflow-auto">
                 <p>
-                  The Casual axis controls how "brushy" letters look. 0 is "Linear" or normal-looking, while 1 is "Casual" or brushy (based on single-stroke casual signpainting).
+                  The Casual axis controls how “brushy” letters look. 0 is “Linear” or normal-looking, while 1 is “Casual” or brushy (based on single-stroke casual signpainting).
                 </p>
                 <p>
-                  It has two source locations, so its range cannot be subset.
-                </p>
-                <p>
-                  Pin it at 0 or 1 for a smaller but less-flexible font file.
+                  Pin it at <code>0</code> for a Linear-only font or <code>1</code> for an Casual-only font.
                 </p>
               </div>
               {# <div class="Box-footer">
