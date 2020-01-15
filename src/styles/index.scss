@@ -99,7 +99,7 @@ code {
   width: 100%;
   display: grid;
   align-items: center;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr max-content 2rem;
   padding: 1rem 0 0;
   justify-content: space-between;
 }
@@ -247,6 +247,10 @@ code {
   margin: 0.5rem 0;
 }
 
+.checkboxes div:first-of-type {
+  pointer-events: none;
+}
+
 // ---------------------------------------
 // Embed
 
@@ -364,7 +368,7 @@ details summary {
 
 .details-dialog {
   position: absolute;
-  transform: translate(8ch, -2.25rem);
+  transform: translate(4ch, -2.25rem);
   z-index: 999;
   width: calc(40ch + 2rem);
   max-height: 80vh;
@@ -380,6 +384,7 @@ details summary {
 
   @media (max-width: 750px) {
     transform: translate(2ch, -2.25rem);
+    left: 0;
   }
 
   p {

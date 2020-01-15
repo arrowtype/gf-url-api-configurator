@@ -15,8 +15,18 @@ title: URL CONFIG WIP
 
     <div id="wght-control" class="axis-control">
       <div class="axis__header">
+        <h4>Weight</h4>
+
+
+        <div class="subset-type">
+          <input type="radio" id="wght_subset__range" name="wght-subset-type" value="range" checked>
+          <label for="wght_subset__range">Range</label>
+
+          <input type="radio" id="wght_subset__pinned" name="wght-subset-type" value="pinned" >
+          <label for="wght_subset__pinned">Pinned</label>
+        </div>
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="casl"><h4>Weight</h4></summary>
+          <summary class="casl"></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
@@ -27,7 +37,7 @@ title: URL CONFIG WIP
                   Controls how light or bold the font is.
                 </p>
                 <p>
-                  It can be subset to <code>300–800</code> or <code>800–1000</code>, for a smaller font file size.
+                  Use the full axis range, or subset it to <code>300–800</code> or <code>800–1000</code> for a smaller font file size.
                 </p>
                 <p>
                   Pin it on a 100-unit value (e.g. <code>300</code>, <code>400</code>, <code>500</code>, etc) to use just a single weight.
@@ -39,17 +49,6 @@ title: URL CONFIG WIP
             </div>
           </div>
         </details>
-
-
-        <div class="subset-type">
-          <input type="radio" id="wght_subset__range"
-        name="wght-subset-type" value="range" checked>
-          <label for="wght_subset__range">Range</label>
-
-          <input type="radio" id="wght_subset__pinned"
-        name="wght-subset-type" value="pinned" >
-          <label for="wght_subset__pinned">Pinned</label>
-        </div>
       </div>
 
       <div class="subset-controls" data-subset-type="range">
@@ -74,9 +73,21 @@ title: URL CONFIG WIP
     {# slnt AXIS CONTROLS #}
     <div id="slnt-control" class="axis-control">
       <div class="axis__header">
+        <h4>Slant</h4>
+        
+        <div class="subset-type">
+          <input type="radio" id="slnt_subset__range"
+        name="slnt-subset-type" value="range" checked>
+          <label for="slnt_subset__range">Range</label>
+
+          <input type="radio" id="slnt_subset__pinned"
+        name="slnt-subset-type" value="pinned" >
+          <label for="slnt_subset__pinned">Pinned</label>
+        </div>
+
         {# HEADER WITH DETAILS - based on https://github.com/github/details-dialog-element #}
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="casl"><h4>Slant</h4></summary>
+          <summary class="casl"></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
@@ -87,26 +98,14 @@ title: URL CONFIG WIP
                   The Slant axis controls the slope of letters.
                 </p>
                 <p>
-                  Pin it at <code>0</code> for an upright-only font or <code>-15</code> for a slanted-only font.
+                  Use the full axis range, or pin it at <code>0</code> for an upright-only font or <code>-15</code> for a slanted-only font.
                   {# But wait, should this be able to send any integer between 0 and -15? #}
                 </p>
               </div>
-              {# <div class="Box-footer">
-                <button type="button" class="btn btn-block" data-close-dialog>Close</button>
-              </div> #}
             </div>
           </details-dialog>
         </details>
         {# END -- HEADER WITH DETAILS #}
-        <div class="subset-type">
-          <input type="radio" id="slnt_subset__range"
-        name="slnt-subset-type" value="range" checked>
-          <label for="slnt_subset__range">Range</label>
-
-          <input type="radio" id="slnt_subset__pinned"
-        name="slnt-subset-type" value="pinned" >
-          <label for="slnt_subset__pinned">Pinned</label>
-        </div>
       </div>
 
       <div class="subset-controls" data-subset-type="range">
@@ -128,29 +127,7 @@ title: URL CONFIG WIP
     {# ital AXIS CONTROLS #}
     <div id="ital-control" class="axis-control">
       <div class="axis__header">
-        {# HEADER WITH DETAILS #}
-        <details class="details-reset details-with-dialog mt-4">
-          <summary class="casl"><h4>Italic</h4></summary>
-          <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
-            <div class="Box d-flex flex-column">
-              <div class="Box-header header4">
-                Italic <code>ital</code>
-              </div>
-              <div class="Box-body overflow-auto">
-                <p>
-                  Controls how "cursive" letters look.
-                </p>
-                <p>
-                  Pin it at <code>0</code> for a Normal-only font or <code>1</code> for an Italic-only font.
-                </p>
-              </div>
-              {# <div class="Box-footer">
-                <button type="button" class="btn btn-block" data-close-dialog>Close</button>
-              </div> #}
-            </div>
-          </div>
-        </details>
-        {# END -- HEADER WITH DETAILS #}
+      <h4>Italic</h4>
         <div class="subset-type">
           <input type="radio" id="ital_subset__range"
         name="ital-subset-type" value="range" checked>
@@ -160,6 +137,29 @@ title: URL CONFIG WIP
         name="ital-subset-type" value="pinned" >
           <label for="ital_subset__pinned">Pinned</label>
         </div>
+        {# HEADER WITH DETAILS #}
+        <details class="details-reset details-with-dialog mt-4">
+          <summary class="casl"></summary>
+          <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
+            <div class="Box d-flex flex-column">
+              <div class="Box-header header4">
+                Italic <code>ital</code>
+              </div>
+              <div class="Box-body overflow-auto">
+                <p>
+                  Controls how “cursive” letters look.
+                </p>
+                <p>
+                  Use the full axis range, or pin it at <code>0</code> for a Normal-only font or <code>1</code> for an Italic-only font.
+                </p>
+              </div>
+              {# <div class="Box-footer">
+                <button type="button" class="btn btn-block" data-close-dialog>Close</button>
+              </div> #}
+            </div>
+          </div>
+        </details>
+        {# END -- HEADER WITH DETAILS #}
       </div>
 
       <div class="subset-controls" data-subset-type="range">
@@ -181,30 +181,7 @@ title: URL CONFIG WIP
       {# MONO AXIS CONTROLS #}
     <div id="MONO-control" class="axis-control">
       <div class="axis__header">
-        {# HEADER WITH DETAILS #}
-        <details class="details-reset details-with-dialog mt-4">
-          <summary class="casl"><h4>Monospace</h4></summary>
-          <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
-            <div class="Box d-flex flex-column">
-              <div class="Box-header header4">
-                Monospace <code>MONO</code>
-              </div>
-              <div class="Box-body overflow-auto">
-                <p>
-                  Controls whether letters have a natural or fixed width. 
-                  {# 0 is “Sans” or natural-width (for general text & UI), and 1 is “Mono” or fixed-width (for code & high-legibility text). #}
-                </p>
-                <p>
-                  Pin it at <code>0</code> for a Sans-only font or <code>1</code> for an Mono-only font.
-                </p>
-              </div>
-              {# <div class="Box-footer">
-                <button type="button" class="btn btn-block" data-close-dialog>Close</button>
-              </div> #}
-            </div>
-          </div>
-        </details>
-        {# END -- HEADER WITH DETAILS #}
+      <h4>Monospace</h4>
         <div class="subset-type">
           <input type="radio" id="MONO_subset__range"
         name="MONO-subset-type" value="range" checked>
@@ -214,6 +191,30 @@ title: URL CONFIG WIP
         name="MONO-subset-type" value="pinned" >
           <label for="MONO_subset__pinned">Pinned</label>
         </div>
+        {# HEADER WITH DETAILS #}
+        <details class="details-reset details-with-dialog mt-4">
+          <summary class="casl"></summary>
+          <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
+            <div class="Box d-flex flex-column">
+              <div class="Box-header header4">
+                Monospace <code>MONO</code>
+              </div>
+              <div class="Box-body overflow-auto">
+                <p>
+                  Controls whether letters have a natural width (“Sans”) or fixed width (“Mono”). 
+                  {# 0 is “Sans” or natural-width (for general text & UI), and 1 is “Mono” or fixed-width (for code & high-legibility text). #}
+                </p>
+                <p>
+                  Use the full axis range, or pin it at <code>0</code> for a Sans-only font or <code>1</code> for an Mono-only font.
+                </p>
+              </div>
+              {# <div class="Box-footer">
+                <button type="button" class="btn btn-block" data-close-dialog>Close</button>
+              </div> #}
+            </div>
+          </div>
+        </details>
+        {# END -- HEADER WITH DETAILS #}
       </div>
 
       <div class="subset-controls" data-subset-type="range">
@@ -235,9 +236,19 @@ title: URL CONFIG WIP
     {# CASL AXIS CONTROLS #}
     <div id="CASL-control" class="axis-control">
       <div class="axis__header">
+      <h4>Casual</h4>
+        <div class="subset-type">
+          <input type="radio" id="CASL_subset__range"
+        name="CASL-subset-type" value="range" checked>
+          <label for="CASL_subset__range">Range</label>
+
+          <input type="radio" id="CASL_subset__pinned"
+        name="CASL-subset-type" value="pinned" >
+          <label for="CASL_subset__pinned">Pinned</label>
+        </div>
         {# HEADER WITH DETAILS #}
         <details class="details-reset details-with-dialog mt-4">
-          <summary class="casl"><h4>Casual</h4></summary>
+          <summary class="casl"></summary>
           <div class="details-dialog anim-fade-in fast wide" aria-label="Dialog">
             <div class="Box d-flex flex-column">
               <div class="Box-header header4">
@@ -249,7 +260,7 @@ title: URL CONFIG WIP
                   {# 0 is “Linear” or normal-looking, while 1 is “Casual” or brushy (based on single-stroke casual signpainting). #}
                 </p>
                 <p>
-                  Pin it at <code>0</code> for a Linear-only font or <code>1</code> for an Casual-only font.
+                  Use the full axis range, or pin it at <code>0</code> for a Linear-only font or <code>1</code> for an Casual-only font.
                 </p>
               </div>
               {# <div class="Box-footer">
@@ -259,15 +270,6 @@ title: URL CONFIG WIP
           </div>
         </details>
         {# END -- HEADER WITH DETAILS #}
-        <div class="subset-type">
-          <input type="radio" id="CASL_subset__range"
-        name="CASL-subset-type" value="range" checked>
-          <label for="CASL_subset__range">Range</label>
-
-          <input type="radio" id="CASL_subset__pinned"
-        name="CASL-subset-type" value="pinned" >
-          <label for="CASL_subset__pinned">Pinned</label>
-        </div>
       </div>
 
       <div class="subset-controls" data-subset-type="range">
@@ -331,6 +333,14 @@ title: URL CONFIG WIP
       Preview
     </h2>
     <p>Work in progress</p>
+    <ul>
+      <li>Markdown</li>
+      <li>App UI</li>
+      <li>Code</li>
+      <li>Designspace</li>
+      <li>Character set (?)</li>
+    </ul>
+
   </div>
 </div>
 </div>
