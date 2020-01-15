@@ -11,6 +11,8 @@ title: URL CONFIG WIP
 
     <h3>Variable Axes</h3>
 
+    <div class="axis-controls">
+
     <div id="wght-control" class="axis-control">
       <div class="axis__header">
           <details class="details-reset details-with-dialog mt-4">
@@ -283,8 +285,27 @@ title: URL CONFIG WIP
         </div>
       </div>
     </div>
-    {# <h3>Languages</h3>
-    <p>Work in progress</p> #}
+    </div> {# END axis controls #}
+    <div id="languages">
+      <h3>Languages</h3>
+      <div class="checkboxes">
+        <div>
+          <input type="checkbox" id="latin-basic" name="latin-basic" checked>
+          <label for="latin-basic">Latin Basic<span class="subset--description"> (Required)</span></label> 
+        </div>
+
+        <div>
+          <input type="checkbox" id="latin-ext" name="latin-ext">
+          <label for="latin-ext">Latin Extended</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="vietnamese" name="vietnamese">
+          <label for="vietnamese">Vietnamese</label>
+        </div>
+      </div>
+    </div>
+
     
     </div>
 

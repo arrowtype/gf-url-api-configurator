@@ -2,19 +2,12 @@
 //// console.log(`Hello ${list[2]}`)
 
 let selectedSources = [300, 1000]
+let selectedLanguages = []
 // let wght = 400
 // let MONO = 0
 
-
-function escapeHtml(html){
-  var text = document.createTextNode(html);
-  var span = document.createElement('span');
-  span.appendChild(text);
-  return span.innerHTML;
-}
-
-
 function setUrl() {  
+  const api_call = document.querySelector("#api-call");
   
   function updateUrl(result) {
     api_call.innerHTML = result
@@ -66,32 +59,61 @@ function setUrl() {
     italResult = ital
   }
 
-  urlString = `https://fonts.sandbox.google.com/css2?family=<span class="code--bold">Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}</span>`
+  // &subset=latin-ext,vietnamese
+  // for subset in subsets
+    // if subset is checked
+      // languages += subset
+
+  let languages = ""
+  console.log(selectedLanguages.length)
+
+  // if (selectedLanguages.length === 1) {
+  //   languages = "&subset="
+  //   for (var language of selectedLanguages) {
+  //     console.log(language)
+  //     languages += `${language}`
+  //   }
+  // }
+  // if (selectedLanguages.length > 1) {
+  //   for (var language of selectedLanguages) {
+  //     languages += `,${language}`
+  //   }
+  // }
+  for (var language of selectedLanguages) {
+    if (selectedLanguages.indexOf(language) === 0) {
+      languages = "&subset="
+        console.log(language)
+        languages += `${language}`
+      } else if (selectedLanguages.indexOf(language) >= 1) {
+        languages += `,${language}`
+    }
+  }
+
+  urlString = `https://fonts.sandbox.google.com/css2?family=<span class="code--bold">Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}</span>&display=swap${languages}`
 
   const howToHTML = document.querySelector('#howto--html-embed')
   const howToCSS = document.querySelector('#howto--css-embed')
 
   if (embedTypeControls.dataset.embedType === "html") {
-    result = `<link href="${urlString}" rel="stylesheet">`
-    api_call.innerHTML = escapeHtml(result)
     api_call.innerHTML = `
     &lt;link&gt;<br>
-    href="${urlString}&display=swap"
+    href="${urlString}"
     rel="stylesheet">
     `
   } else {
     api_call.innerHTML = `
     &lt;style&gt;<br>
-    @import url('${urlString}&display=swap');
+    @import url('${urlString}');
     &lt;/style&gt;
     `
   }
 }
+
 // embed URL type
 
 const embedTypeControls = document.querySelector('#embed .embed-type')
 
-document.getElementById("embed_type__html").addEventListener('input', () => {  
+document.getElementById("embed_type__html").addEventListener('input', () => {  a
   embedTypeControls.dataset.embedType = "html"
   setUrl()
 });
@@ -331,12 +353,42 @@ ital_pinned_slider.addEventListener('input', (e) => {
   setUrl()
 });
 
+// language subsetting
+
+const languageControls = document.querySelectorAll('#languages input')
+
+function checkSelectedLanguages() {
+  selectedLanguages = []
+  // check what Languages are selected
+  for (var language of languageControls) {
+    if (language.checked && language.name !== "latin-basic") {
+      selectedLanguages.push(language.name)
+    }
+  }
+  return selectedLanguages
+}
+
+function setLanguages() {
+  selectedLanguages = checkSelectedLanguages()
+  setUrl()
+}
+
+function addSubsetListeners() {
+  for (var selector of languageControls) {
+    selector.addEventListener('input', setLanguages)
+  }
+}
+
+addSubsetListeners()
+
+
+console.log(languageControls)
+console.log(checkSelectedLanguages())
 
 
 
 // cue URL
 
-const api_call = document.querySelector("#api-call");
 setUrl()
 
 

@@ -60,6 +60,8 @@ h3, .header3 {
   color: var(--gray1);
   font-size: 1rem;
   margin: 0;
+  padding-bottom: 0.25rem;
+  border-bottom: var(--gray4) solid 1px;
 }
 
 h4, .header4 {
@@ -86,6 +88,11 @@ code {
 
 .axis-control {
   padding: 0 0 1rem;
+  border-top: var(--gray4) solid 1px;
+}
+
+.axis-controls .axis-control:first-of-type {
+  border: none;
 }
 
 .axis__header {
@@ -93,9 +100,7 @@ code {
   display: grid;
   align-items: center;
   grid-template-columns: auto auto;
-  /*   border: red solid 1px; */
-  border-top: gray solid 1px;
-  padding: 1rem 0;
+  padding: 1rem 0 0;
   justify-content: space-between;
 }
 
@@ -225,6 +230,21 @@ code {
   display: grid;
   grid-template-columns: 1fr 4ch;
   text-align: right;
+}
+
+// ---------------------------------------
+// Language subsetting
+
+.subset--description {
+  color: var(--gray1);
+}
+
+.checkboxes {
+  padding: 0.5rem 0;
+}
+
+.checkboxes div{
+  margin: 0.5rem 0;
 }
 
 // ---------------------------------------
