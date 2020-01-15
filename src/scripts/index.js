@@ -6,6 +6,14 @@ let selectedSources = [300, 1000]
 // let MONO = 0
 
 
+function escapeHtml(html){
+  var text = document.createTextNode(html);
+  var span = document.createElement('span');
+  span.appendChild(text);
+  return span.innerHTML;
+}
+
+
 function setUrl() {  
   
   function updateUrl(result) {
@@ -57,11 +65,36 @@ function setUrl() {
     ital = ital_pinned_slider.value
     italResult = ital
   }
-  
-  result = `@import url('https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}');`
-  
-  api_call.innerHTML = result
+
+  urlString = `https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}`
+
+  const howToHTML = document.querySelector('#howto--html-embed')
+  const howToCSS = document.querySelector('#howto--css-embed')
+
+  if (embedTypeControls.dataset.embedType === "html") {
+    result = `<link href="${urlString}" rel="stylesheet">`
+  } else {
+    result = `
+    <style>
+    @import url('${urlString}');
+    </style>`
+  }
+  console.log(escapeHtml(result))
+  api_call.innerHTML = escapeHtml(result)
 }
+// embed URL type
+
+const embedTypeControls = document.querySelector('#embed .embed-type')
+
+document.getElementById("embed_type__html").addEventListener('input', () => {  
+  embedTypeControls.dataset.embedType = "html"
+  setUrl()
+});
+
+document.getElementById("embed_type__css").addEventListener('input', () => {
+  embedTypeControls.dataset.embedType = "css"
+  setUrl()
+});
 
 // wght subset type
 
@@ -303,6 +336,3 @@ setUrl()
 
 
 
-  
-
-// TODO: make range/pinned radio buttons show/hide slider vs checkboxes
