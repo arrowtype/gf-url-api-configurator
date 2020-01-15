@@ -66,21 +66,26 @@ function setUrl() {
     italResult = ital
   }
 
-  urlString = `https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}`
+  urlString = `https://fonts.sandbox.google.com/css2?family=<span class="code--bold">Recursive:ital,slnt,wght,CASL,MONO@${italResult},${slntResult},${wghtResult},${CASLResult},${MONOResult}</span>`
 
   const howToHTML = document.querySelector('#howto--html-embed')
   const howToCSS = document.querySelector('#howto--css-embed')
 
   if (embedTypeControls.dataset.embedType === "html") {
     result = `<link href="${urlString}" rel="stylesheet">`
+    api_call.innerHTML = escapeHtml(result)
+    api_call.innerHTML = `
+    &lt;link&gt;<br>
+    href="${urlString}&display=swap"
+    rel="stylesheet">
+    `
   } else {
-    result = `
-    <style>
-    @import url('${urlString}');
-    </style>`
+    api_call.innerHTML = `
+    &lt;style&gt;<br>
+    @import url('${urlString}&display=swap');
+    &lt;/style&gt;
+    `
   }
-  console.log(escapeHtml(result))
-  api_call.innerHTML = escapeHtml(result)
 }
 // embed URL type
 
