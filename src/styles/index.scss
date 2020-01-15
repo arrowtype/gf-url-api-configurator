@@ -274,9 +274,7 @@ details summary {
 .details-reset>summary {
   list-style: none;
   display: flex;
-  align-items: center;
-
-  
+  align-items: center;  
 }
 
 // hide normal "Details" arrow
@@ -323,7 +321,7 @@ details summary {
   position: absolute;
   transform: translate(8ch, -2.25rem);
   z-index: 999;
-  width: calc(50ch + 2rem);
+  width: calc(40ch + 2rem);
   max-height: 80vh;
   max-width: 90vw;
   box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
