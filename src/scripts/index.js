@@ -59,26 +59,9 @@ function setUrl() {
     italResult = ital
   }
 
-  // &subset=latin-ext,vietnamese
-  // for subset in subsets
-    // if subset is checked
-      // languages += subset
-
   let languages = ""
   console.log(selectedLanguages.length)
 
-  // if (selectedLanguages.length === 1) {
-  //   languages = "&subset="
-  //   for (var language of selectedLanguages) {
-  //     console.log(language)
-  //     languages += `${language}`
-  //   }
-  // }
-  // if (selectedLanguages.length > 1) {
-  //   for (var language of selectedLanguages) {
-  //     languages += `,${language}`
-  //   }
-  // }
   for (var language of selectedLanguages) {
     if (selectedLanguages.indexOf(language) === 0) {
       languages = "&subset="
@@ -113,7 +96,7 @@ function setUrl() {
 
 const embedTypeControls = document.querySelector('#embed .embed-type')
 
-document.getElementById("embed_type__html").addEventListener('input', () => {  a
+document.getElementById("embed_type__html").addEventListener('input', () => {
   embedTypeControls.dataset.embedType = "html"
   setUrl()
 });
