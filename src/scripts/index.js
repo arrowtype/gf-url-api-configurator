@@ -79,9 +79,8 @@ function setUrl() {
 
   if (embedTypeControls.dataset.embedType === "html") {
     api_call.innerHTML = `
-    &lt;link&gt;<br>
-    href="${urlString}"
-    rel="stylesheet">
+    &lt;link href="${urlString}"
+    rel="stylesheet"&gt;
     `
   } else {
     api_call.innerHTML = `
