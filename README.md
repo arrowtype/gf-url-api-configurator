@@ -20,3 +20,14 @@ Here's a basic mockup of what I have in mind. It will require further iteration 
 
 This is described in more depth at https://github.com/arrowtype/recursive-minisite/issues/33.
 
+## Develop
+
+```
+npm install
+```
+
+then
+
+```
+npm run dev
+```

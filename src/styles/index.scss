@@ -2,10 +2,17 @@
 @import "_vars.scss";
 @import "_helpers.scss";
 
-@import url("https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@0..1,-15..0,300..1000,0..1,0..1");
+// @import url("https://fonts.sandbox.google.com/css2?family=Recursive:ital,slnt,wght,CASL,MONO@0..1,-15..0,300..1000,0..1,0..1");
+
+@font-face {
+  font-family: 'RecVF';
+  font-weight: 300 1000;
+  font-style: oblique 0deg 15deg;
+  src: url("/fonts/Recursive_VF_1.047.woff2");
+}
 
 html {
-  font-family: "Recursive";
+  font-family: "RecVF";
   font-size: 14px;
   // margin: 2rem;
   margin: 0;
@@ -18,16 +25,17 @@ body {
   margin: 0;
 }
 
+#controls, #embed, #preview {
+  padding: 1.5rem 1rem 2rem;
+}
+
 #use-recursive {
   display: grid;
-  grid-template-columns: min-content 1fr;
+  grid-template-columns:  1fr min-content;
   grid-template-rows: 100%;
   max-height: 100vh;
 }
 
-#customize-sidebar, #preview {
-  padding: 2rem 1rem;
-}
 
 #customize-sidebar {
   min-height: 100vh;
@@ -39,6 +47,7 @@ body {
   grid-template-rows: 1fr min-content;
   grid-template-columns: 100%;
   overflow: auto;
+  order: 2; // to put it on the right side during development
 
   @media screen and (max-width: 600px){
     width: 100vw;
@@ -49,12 +58,13 @@ p {
   line-height: 1.5;
 }
 
-h2, .header2 {
+h3, .header3 {
   font-variation-settings: "CASL" 1;
   font-size: 1.5rem;
-  margin-top: 0;
+  margin: 0 0 1rem;
 }
-h3, .header3 {
+
+h4, .header4 {
   text-transform: uppercase;
   letter-spacing: var(--cap-spacing);
   color: var(--gray1);
@@ -64,7 +74,7 @@ h3, .header3 {
   border-bottom: var(--gray4) solid 1px;
 }
 
-h4, .header4 {
+h5, .header5 {
   --CASL: 1;
   font-weight: 700;
   font-size: 1rem;
@@ -73,7 +83,7 @@ h4, .header4 {
 }
 
 code {
-  font-family: "Recursive";
+  font-family: "RecVF";
   --MONO: 1;
   padding: 0.25em 0.25em;
   background-color: var(--darkTransp);
@@ -89,10 +99,6 @@ code {
 .axis-control {
   padding: 0 0 1rem;
   border-top: var(--gray4) solid 1px;
-}
-
-.axis-controls .axis-control:first-of-type {
-  border: none;
 }
 
 .axis__header {
@@ -137,7 +143,7 @@ code {
 
   .range-selector {
     // padding: 0.25rem 0.75rem;
-    padding: 0.125rem 0.75rem;
+    padding: 0.25rem 0.75rem;
     // height: 2rem;
     border-radius: 999px;
     border: 2px solid transparent;
@@ -179,7 +185,7 @@ code {
     height: 100%;
   }
   // [data-active="true"].range-gap {
-  //     // background: var(--blue4);
+  //     background: var(--blue4);
   // }
 }
 
@@ -279,7 +285,7 @@ code {
     code {
       // font-family: 'Recursive', monospace;
       background-color: transparent;
-      font-family: "Recursive";
+      font-family: "RecVF";
       font-variation-settings: "MONO" 1;
       overflow-wrap: break-word;
     }
