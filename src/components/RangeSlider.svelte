@@ -5,17 +5,38 @@
 
     export let lowerLimit = min
     export let upperLimit = max
+    
+    let lowerLimitPx = 0
+    let upperLimitPx = 0
+    
+    // export let upperLimitPercent = 100
+
+    let sliderWidth;
+
 
     export let moreProps = {}; // allows other props to be spread in, e.g. "step" or "disabled"
 
+    const calcLowerLimitPercent = () => { lowerLimitPx = sliderWidth * ((lowerLimit - min) / (max - min)) }
+    const calcUpperLimitPercent = () => { upperLimitPx = sliderWidth * ((max - upperLimit) / (max - min)) }
+    
+    const recalc = () => {
+        console.log("recalculating")
+        calcLowerLimitPercent()
+        calcUpperLimitPercent()
+    }
+
 </script>
 
-<div class="slider-container">
-    <span>{lowerLimit}</span>
-    <input id="slider" type="range" bind:value min={lowerLimit} max={upperLimit} {...moreProps} on:change on:input>
-    <span>{upperLimit}</span>
-    <input id="slider--lowerLimit" type="range" bind:value={lowerLimit} {min} max={upperLimit} {...moreProps} on:change on:input>
-    <input id="slider--upperLimit" type="range" bind:value={upperLimit} min={lowerLimit} {max} {...moreProps} on:change on:input>
+<svelte:window on:resize={recalc}/>
+
+<div class="slider-container" style="--lowerLimit: {lowerLimitPx}; --upperLimit: {upperLimitPx};" bind:offsetWidth={sliderWidth} on:resize={recalc} >
+    <p>value = {value}</p>  
+    <p>lower = {lowerLimit}</p>  
+    <p>upper = {upperLimit}</p>  
+    <input id="slider" class="limitLower limitUpper" type="range" bind:value min={lowerLimit} max={upperLimit} {...moreProps} on:change on:input>
+    
+    <input id="slider--lowerLimit" class=" limitUpper" type="range" bind:value={lowerLimit} {min} max={upperLimit} {...moreProps} on:change on:input={calcLowerLimitPercent}>
+    <input id="slider--upperLimit" class="limitLower" type="range" bind:value={upperLimit} min={lowerLimit} {max} {...moreProps} on:change on:input={calcUpperLimitPercent}>
 </div>
 
 <style>
@@ -37,6 +58,8 @@
         --thumbHeight: 12px;
         --thumbTouchHeight: 48px;
         --sliderComponentBg: #f4f4f4;
+        --lowerLimit:0;
+        --upperLimit:0;
     }
   input[type="range"] {
     width: 100%;
@@ -47,6 +70,13 @@
     width: calc(100% + var(--thumbTouchHeight));
     background: transparent; /* necessary for firefox */
     border: none;
+  }
+
+  .limitLower {
+      padding-left: calc(var(--lowerLimit) * 1px);
+  }
+  .limitUpper {
+      padding-right: calc(var(--upperLimit) * 1px);
   }
 
   input[type="range"]:focus {
