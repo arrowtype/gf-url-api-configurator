@@ -20,7 +20,6 @@
     const calcUpperLimitPercent = () => { upperLimitPx = sliderWidth * ((max - upperLimit) / (max - min)) }
     
     const recalc = () => {
-        console.log("recalculating")
         calcLowerLimitPercent()
         calcUpperLimitPercent()
     }
