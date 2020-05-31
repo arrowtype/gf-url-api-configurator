@@ -1,11 +1,12 @@
 <script>
 	import TypeTester from './components/TypeTester.svelte'
-	export let name;
+	import { wght } from './stores.js';
+
+	let wghtVal;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<p>wght is {$wght}</p>
 	<TypeTester />
 </main>
 
