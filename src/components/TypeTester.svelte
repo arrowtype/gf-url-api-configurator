@@ -22,7 +22,7 @@
     }
 </script>
 
-<span contenteditable="true">Abc123</span>
+<span contenteditable="true" style="--wght: {wghtInput}">Abc123</span>
 
 <p>{wghtInput}</p>
 <!-- <Slider id="wghtSlider" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
@@ -32,3 +32,13 @@
 <!-- <RangeSlider id="slntSlider" label="slnt" bind:value={slntInput} min={slntMin} max={slntMax} on:change={updateSlnt} on:input={updateSlnt}/> -->
 
 <CustomRangeSlider  on:slide={handleWght}  />
+
+<style>
+:root {
+    --wght: 800;
+}
+    span {
+        font-size: 15vw;
+        font-variation-settings: 'wght' var(--wght);
+    }
+</style>
