@@ -8,7 +8,7 @@
   let thumbWidth;
   let thumbPos;
 
-  let minLimitWidth;
+  let minLimitWidth = 12;
   let minLimitPos;
 
   let maxLimitWidth;
@@ -24,22 +24,39 @@
     });
   }
 
+  let currentThumb;
+
   function sliderdown(e) {
-    e.target.classList.add("active");
+
+    e.target.tagName === "polygon" ? e.target.parentElement.classList.add("active") : e.target.classList.add("active");
+    e.target.tagName === "polygon" ? currentThumb = e.target.parentElement : currentThumb = e.target;
+
     // bind late
+    if (currentThumb.classList.contains("limiter")) {
+        console.log("yup")
+        document.addEventListener("mousemove", limiterMove, true)
+    } else {
+        console.log("nope")
+        document.addEventListener("mousemove", slidermove, true)
+    }
     document.addEventListener("mouseup", sliderup, true);
-    document.addEventListener("mousemove", slidermove, true);
   }
 
   function sliderup(e) {
-    document.querySelector(".thumb").classList.remove("active");
+    // document.querySelector(".thumb").classList.remove("active");
+    currentThumb.classList.remove("active");
     // unbind
-    document.removeEventListener("mousemove", slidermove, true);
     document.removeEventListener("mouseup", sliderup, true);
+    if (currentThumb.classList.contains("limiter")) {
+        document.removeEventListener("mousemove", limiterMove, true)
+    } else {
+        document.removeEventListener("mousemove", slidermove, true);
+    }
   }
 
   function slidermove(e) {
-    const t = document.querySelector(".thumb"); // TODO: convert to e.target ?
+
+    const t = currentThumb;
 
     let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth / 2;
     if (newpos < 0) {
@@ -48,13 +65,34 @@
         newpos = t.parentElement.offsetWidth - t.offsetWidth;
     }
     // adjust movement by step precision
-    let widthStep = (sliderWidth - thumbWidth) / ((max - min) / step);
+    let widthStep = (sliderWidth - t.offsetWidth) / ((max - min) / step);
     newpos = Math.round(newpos / widthStep) * widthStep;
 
-    t.style.left = newpos + "px";
-    thumbPos = newpos;
+    // t.style.left = newpos + "px"; // not needed
+    thumbPos = newpos
+
     calcValue();
   }
+
+    function limiterMove(e) {
+        console.log("limiter!")
+        const t = currentThumb;
+        let newpos = e.clientX - t.parentElement.offsetLeft - t.clientWidth / 2;
+
+        if (newpos < 0) {
+            newpos = 0;
+        } else if (newpos > t.parentElement.offsetWidth - t.clientWidth) {
+            newpos = t.parentElement.offsetWidth - t.clientWidth;
+        }
+        let widthStep = (sliderWidth - t.clientWidth) / ((max - min) / step);
+        newpos = Math.round(newpos / widthStep) * widthStep;
+
+        minLimitPos = newpos
+
+        console.log(minLimitPos)
+        t.style.left = newpos + "px";
+    }
+
 
   // from https://stackoverflow.com/a/27865285/3704306
   function precision(a) {
@@ -83,92 +121,32 @@
   }
 </script>
 
-<style>
-  :root {
-    --trackHeight: 2px;
-    --controlHeight: 1.5rem;
-    --trackBg: #eee;
-    --buttonBg: #0050ff;
-  }
-  .custom-slider {
-    height: var(--trackHeight);
-    margin: 2rem;
-  }
-  .custom-slider-track {
-    width: 100%;
-    height: 100%;
-    background: var(--trackBg);
-    position: relative;
-  }
-  .thumb {
-    width: 3rem;
-    height: var(--controlHeight);
-    position: absolute;
-    top: calc(-1 * var(--controlHeight) / 2 + var(--trackHeight) / 2);
-    left: 0;
-  }
-
-  .main-thumb {
-    display: grid;
-    align-items: center;
-    background: var(--buttonBg);
-    border-radius: 99px;
-  }
-  .thumb.active {
-    background: #ff0097;
-  }
-
-  .thumb {
-    user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-  }
-
-  .limiter {
-    width: var(--controlHeight);
-    height: var(--controlHeight);
-    position: absolute;
-    top: calc(-1 * var(--controlHeight) / 2 + var(--trackHeight) / 2);
-  }
-  .limiter svg {
-    fill: currentColor;
-  }
-</style>
-
 <svelte:window on:resize={resize} />
 
 <div class="custom-slider">
   <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
     <div
+      id="mainThumb"
       class="thumb main-thumb"
       style="left: {thumbPos ? thumbPos : ((value - min) / (max - min)) * (sliderWidth - thumbWidth)}px"
       on:mousedown={sliderdown}
-      bind:offsetWidth={thumbWidth}>
+      bind:clientWidth={thumbWidth}>
       {value}
     </div>
   </div>
 </div>
-<!-- <div class="custom-slider">
-  <div
-    class="custom-slider-track"
-    bind:offsetWidth={sliderWidth}
-    >
-    <div id="lowerLimit" class="limiter">
-        
-    </div>
-    <div 
-        id="lowerLimit"
-        class="thumb" 
-        style="left: {thumbPos ? thumbPos : (value - min) / (max-min) * (sliderWidth-thumbWidth)}px" 
+<div class="custom-slider">
+  <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+    <svg 
+        class="thumb limiter" 
+        style="left: {minLimitPos ? minLimitPos : 0}px"
         on:mousedown={sliderdown} 
-        bind:offsetWidth={minLimitWidth}
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {minLimitWidth} 20" height="100%" width="100%"
         >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" height="100%" width="100%"><polygon points="0,0 0,16 10,8"/></svg>
-    </div>
-
+        <polygon id="lowerLimit" points="0,0 0,20 {minLimitWidth},10"/>
+    </svg>
   </div>
-</div> -->
+</div>
 <!-- <div class="custom-slider">
   <div
     class="custom-slider-track"
@@ -189,3 +167,59 @@
 
   </div>
 </div> -->
+
+<style>
+  :root {
+    --trackHeight: 2px;
+    --controlHeight: 1.5rem;
+    --thumbWidth: 3rem;
+    --limiterHeight: 20px;
+    --limiterWidth: 12px;
+
+    --trackBg: #eee;
+    /* --buttonBg: #0050ff; */
+    --buttonBg: #5e91ff;
+  }
+  .custom-slider {
+    height: var(--trackHeight);
+    margin: 2rem;
+  }
+  .custom-slider-track {
+    width: 100%;
+    height: 100%;
+    background: var(--trackBg);
+    position: relative;
+  }
+  .thumb {
+    width: var(--thumbWidth);
+    height: var(--controlHeight);
+    position: absolute;
+    top: calc(-1 * var(--controlHeight) / 2 + var(--trackHeight) / 2);
+    left: 0;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .main-thumb {
+    display: grid;
+    align-items: center;
+    background: var(--buttonBg);
+    border-radius: 99px;
+  }
+  .thumb.active {
+    background: #ff0097;
+  }
+
+  .limiter {
+    width: var(--controlHeight);
+    height: var(--limiterHeight);
+    position: absolute;
+    top: calc(-1 * var(--limiterHeight) / 2 + var(--trackHeight) / 2);
+    transform: translateX(calc(-1 * var(--limiterWidth)));
+  }
+  .limiter polygon{
+      fill: var(--buttonBg);
+  }
+</style>

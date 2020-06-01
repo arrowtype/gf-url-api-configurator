@@ -8,6 +8,8 @@
   let thumbWidth;
   let thumbPos;
 
+  // TODO: make value changeable by a click on the track
+
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
