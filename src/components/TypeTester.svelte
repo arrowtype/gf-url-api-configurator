@@ -1,7 +1,7 @@
 <script>
     import Slider from './Slider.svelte'
     import RangeSlider from './RangeSlider.svelte'
-    import RangePointSlider from './RangePointSlider.svelte'
+    import CustomRangeSlider from './CustomRangeSlider.svelte'
 
     export let wghtInput = '700';
     export let wghtMin = 300;
@@ -15,6 +15,11 @@
 
     const updateWght = () => { wght.set(wghtInput) }
     const updateSlnt = () => { slnt.set(slntInput) }
+
+    function handleWght(event){
+        wghtInput = event.detail.number
+        wght.set(wghtInput)
+    }
 </script>
 
 <span contenteditable="true">Abc123</span>
@@ -23,7 +28,7 @@
 <!-- <Slider id="wghtSlider" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
 
 
-<RangeSlider id="wghtSlider2" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/>
+<!-- <RangeSlider id="wghtSlider2" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
 <!-- <RangeSlider id="slntSlider" label="slnt" bind:value={slntInput} min={slntMin} max={slntMax} on:change={updateSlnt} on:input={updateSlnt}/> -->
 
-<RangePointSlider />
+<CustomRangeSlider  on:slide={handleWght}  />
