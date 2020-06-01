@@ -2,14 +2,21 @@
   export let value = 800;
   export let min = 300;
   export let max = 1000;
-  export let step = 1;
+  export let step = 10;
 
   let sliderWidth;
-  let buttonWidth;
-  let buttonPos;
+  let thumbWidth;
+  let thumbPos;
 
-  // TODO: define custom event for "input"
-  // TODO: start thumb position at value
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
+  function sendValue() {
+    dispatch("thumbSlide", {
+      number: value
+    });
+  }
 
   function sliderdown(e) {
     e.target.classList.add("active");
@@ -19,32 +26,39 @@
   }
 
   function sliderup(e) {
-    document.querySelector("#thumb").classList.remove("active");
+    document.querySelector(".thumb").classList.remove("active");
     // unbind
     document.removeEventListener("mousemove", slidermove, true);
     document.removeEventListener("mouseup", sliderup, true);
   }
 
-    // adjust movement by step precision
   function slidermove(e) {
-    const t = document.querySelector("#thumb");
+    const t = document.querySelector(".thumb"); // TODO: convert to e.target ?
 
     let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth / 2;
     if (newpos < 0) {
-      newpos = 0;
+        newpos = 0;
     } else if (newpos > t.parentElement.offsetWidth - t.offsetWidth) {
-      newpos = t.parentElement.offsetWidth - t.offsetWidth;
+        newpos = t.parentElement.offsetWidth - t.offsetWidth;
     }
+    // adjust movement by step precision
+    let widthStep = (sliderWidth - thumbWidth) / ((max - min) / step);
+    newpos = Math.round(newpos / widthStep) * widthStep;
+
     t.style.left = newpos + "px";
-    buttonPos = newpos;
+    thumbPos = newpos;
     calcValue();
   }
 
   // from https://stackoverflow.com/a/27865285/3704306
   function precision(a) {
     if (!isFinite(a)) return 0;
-    var e = 1,p = 0;
-    while (Math.round(a * e) / e !== a) {e *= 10;p++;}
+    var e = 1,
+      p = 0;
+    while (Math.round(a * e) / e !== a) {
+      e *= 10;
+      p++;
+    }
     return p;
   }
 
@@ -53,14 +67,14 @@
   }
 
   function calcValue() {
-    let ratio = buttonPos / (sliderWidth - buttonWidth);
+    let ratio = thumbPos / (sliderWidth - thumbWidth);
     value = round(min + (max - min) * ratio);
+    sendValue();
   }
 
   function resize() {
-      buttonPos = (value - min) / (max-min) * (sliderWidth-buttonWidth)
+    thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
   }
-
 </script>
 
 <svelte:window on:resize={resize}/>

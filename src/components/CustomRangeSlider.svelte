@@ -2,24 +2,27 @@
   export let value = 800;
   export let min = 300;
   export let max = 1000;
-  export let step = 1;
+  export let step = 10;
 
   let sliderWidth;
-  let buttonWidth;
-  let buttonPos;
+  let thumbWidth;
+  let thumbPos;
 
-  // TODO: dispath custom event for "input"
+  let minLimitWidth;
+  let minLimitPos;
 
-  import { createEventDispatcher } from 'svelte';
+  let maxLimitWidth;
+  let maxLimitPos;
 
-    const dispatch = createEventDispatcher();
+  import { createEventDispatcher } from "svelte";
 
+  const dispatch = createEventDispatcher();
 
   function sendValue() {
-		dispatch('slide', {
-			number: value
-		});
-	}
+    dispatch("thumbSlide", {
+      number: value
+    });
+  }
 
   function sliderdown(e) {
     e.target.classList.add("active");
@@ -29,32 +32,39 @@
   }
 
   function sliderup(e) {
-    document.querySelector("#thumb").classList.remove("active");
+    document.querySelector(".thumb").classList.remove("active");
     // unbind
     document.removeEventListener("mousemove", slidermove, true);
     document.removeEventListener("mouseup", sliderup, true);
   }
 
-    // adjust movement by step precision
   function slidermove(e) {
-    const t = document.querySelector("#thumb");
+    const t = document.querySelector(".thumb"); // TODO: convert to e.target ?
 
     let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth / 2;
     if (newpos < 0) {
-      newpos = 0;
+        newpos = 0;
     } else if (newpos > t.parentElement.offsetWidth - t.offsetWidth) {
-      newpos = t.parentElement.offsetWidth - t.offsetWidth;
+        newpos = t.parentElement.offsetWidth - t.offsetWidth;
     }
+    // adjust movement by step precision
+    let widthStep = (sliderWidth - thumbWidth) / ((max - min) / step);
+    newpos = Math.round(newpos / widthStep) * widthStep;
+
     t.style.left = newpos + "px";
-    buttonPos = newpos;
+    thumbPos = newpos;
     calcValue();
   }
 
   // from https://stackoverflow.com/a/27865285/3704306
   function precision(a) {
     if (!isFinite(a)) return 0;
-    var e = 1,p = 0;
-    while (Math.round(a * e) / e !== a) {e *= 10;p++;}
+    var e = 1,
+      p = 0;
+    while (Math.round(a * e) / e !== a) {
+      e *= 10;
+      p++;
+    }
     return p;
   }
 
@@ -63,48 +73,15 @@
   }
 
   function calcValue() {
-    let ratio = buttonPos / (sliderWidth - buttonWidth);
+    let ratio = thumbPos / (sliderWidth - thumbWidth);
     value = round(min + (max - min) * ratio);
-    sendValue()
+    sendValue();
   }
 
   function resize() {
-      buttonPos = (value - min) / (max-min) * (sliderWidth-buttonWidth)
+    thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
   }
-
-
-
-
 </script>
-
-
-<svelte:window on:resize={resize}/>
-
-<div class="custom-slider">
-  <div
-    class="custom-slider-track"
-    bind:offsetWidth={sliderWidth}
-    >
-    <div id="lowerLimit" class="limiter">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" height="100%" width="100%"><polygon points="0,0 0,16 10,8"/></svg>
-    </div>
-    <div 
-        id="thumb" 
-        style="left: {buttonPos ? buttonPos : (value - min) / (max-min) * (sliderWidth-buttonWidth)}px" 
-        on:mousedown={sliderdown} 
-        bind:offsetWidth={buttonWidth}
-        >
-        {value}
-    </div>
-    <div id="upperLimit" class="limiter">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" height="100%" width="100%"><polygon points="10,0 10,16 0,8"/></svg>
-    </div>
-   
-  </div>
-</div>
-
-
-
 
 <style>
   :root {
@@ -123,22 +100,25 @@
     background: var(--trackBg);
     position: relative;
   }
-  #thumb {
+  .thumb {
     width: 3rem;
     height: var(--controlHeight);
-    border-radius: 99px;
-    background: var(--buttonBg);
     position: absolute;
     top: calc(-1 * var(--controlHeight) / 2 + var(--trackHeight) / 2);
     left: 0;
+  }
+
+  .main-thumb {
     display: grid;
     align-items: center;
+    background: var(--buttonBg);
+    border-radius: 99px;
   }
-  #thumb.active {
+  .thumb.active {
     background: #ff0097;
   }
 
-  #thumb {
+  .thumb {
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -152,6 +132,60 @@
     top: calc(-1 * var(--controlHeight) / 2 + var(--trackHeight) / 2);
   }
   .limiter svg {
-      fill: currentColor;
+    fill: currentColor;
   }
 </style>
+
+<svelte:window on:resize={resize} />
+
+<div class="custom-slider">
+  <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+    <div
+      class="thumb main-thumb"
+      style="left: {thumbPos ? thumbPos : ((value - min) / (max - min)) * (sliderWidth - thumbWidth)}px"
+      on:mousedown={sliderdown}
+      bind:offsetWidth={thumbWidth}>
+      {value}
+    </div>
+  </div>
+</div>
+<!-- <div class="custom-slider">
+  <div
+    class="custom-slider-track"
+    bind:offsetWidth={sliderWidth}
+    >
+    <div id="lowerLimit" class="limiter">
+        
+    </div>
+    <div 
+        id="lowerLimit"
+        class="thumb" 
+        style="left: {thumbPos ? thumbPos : (value - min) / (max-min) * (sliderWidth-thumbWidth)}px" 
+        on:mousedown={sliderdown} 
+        bind:offsetWidth={minLimitWidth}
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" height="100%" width="100%"><polygon points="0,0 0,16 10,8"/></svg>
+    </div>
+
+  </div>
+</div> -->
+<!-- <div class="custom-slider">
+  <div
+    class="custom-slider-track"
+    bind:offsetWidth={sliderWidth}
+    >
+    <div id="upperLimit" class="limiter">
+        
+    </div>
+    <div 
+        id="upperLimit"
+        class="thumb" 
+        style="left: {thumbPos ? thumbPos : (value - min) / (max-min) * (sliderWidth-thumbWidth)}px" 
+        on:mousedown={sliderdown} 
+        bind:offsetWidth={minLimitWidth}
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" height="100%" width="100%"><polygon points="0,0 0,16 10,8"/></svg>
+    </div>
+
+  </div>
+</div> -->

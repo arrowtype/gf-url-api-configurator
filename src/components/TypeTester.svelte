@@ -24,14 +24,13 @@
 
 <span contenteditable="true" style="--wght: {wghtInput}">Abc123</span>
 
-<p>{wghtInput}</p>
 <!-- <Slider id="wghtSlider" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
 
 
 <!-- <RangeSlider id="wghtSlider2" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
 <!-- <RangeSlider id="slntSlider" label="slnt" bind:value={slntInput} min={slntMin} max={slntMax} on:change={updateSlnt} on:input={updateSlnt}/> -->
 
-<CustomRangeSlider  on:slide={handleWght}  />
+<CustomRangeSlider  on:thumbSlide={handleWght}  />
 
 <style>
 :root {
