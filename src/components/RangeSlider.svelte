@@ -22,29 +22,33 @@
     const recalc = () => {
         calcLowerLimitPercent()
         calcUpperLimitPercent()
+        value < lowerLimit ? value = lowerLimit : value;
+        value > upperLimit ? value = upperLimit: value ;
     }
 
 </script>
 
 <svelte:window on:resize={recalc}/>
 
+<p>value = {value}</p>  
+<p>lower = {lowerLimit}</p>  
+<p>upper = {upperLimit}</p>  
 <div class="slider-container" style="--lowerLimit: {lowerLimitPx}; --upperLimit: {upperLimitPx};" bind:offsetWidth={sliderWidth} on:resize={recalc} >
-    <p>value = {value}</p>  
-    <p>lower = {lowerLimit}</p>  
-    <p>upper = {upperLimit}</p>  
-    <input id="slider" class="limitLower limitUpper" type="range" bind:value min={lowerLimit} max={upperLimit} {...moreProps} on:change on:input>
-    
-    <input id="slider--lowerLimit" class=" limitUpper" type="range" bind:value={lowerLimit} {min} max={upperLimit} {...moreProps} on:change on:input={calcLowerLimitPercent}>
-    <input id="slider--upperLimit" class="limitLower" type="range" bind:value={upperLimit} min={lowerLimit} {max} {...moreProps} on:change on:input={calcUpperLimitPercent}>
+    <input id="slider--lowerLimit" class=" limitUpper" type="range" bind:value={lowerLimit} {min} max={upperLimit} {...moreProps} on:change on:input={recalc}>
+    <input id="slider--upperLimit" class="limitLower" type="range" bind:value={upperLimit} min={lowerLimit} {max} {...moreProps} on:change on:input={recalc}>
+    <input id="slider" class="limitLower limitUpper active-range" type="range" bind:value min={lowerLimit} max={upperLimit} {...moreProps} on:change on:input>
 </div>
 
 <style>
-    :root {
-        --accent: #fff;
-    }
 
     input {
         margin: 0;
+    }
+
+    .slider-container {
+        display: grid;
+        grid-template-rows: 1fr;
+
     }
 
     /* BETTER SLIDER CSS - TODO: split into separate component */
@@ -52,13 +56,14 @@
     :root {
         --trackBg: #bdbdbd;
         --trackFocus: #cacaca;
-        --thumbBg: #fff;
+        --thumbBg: #0050ff;
         --trackHeight: 1px;
-        --thumbHeight: 12px;
+        --thumbHeight: 20;
         --thumbTouchHeight: 48px;
         --sliderComponentBg: #f4f4f4;
         --lowerLimit:0;
         --upperLimit:0;
+        --accent: #0050ff;
     }
   input[type="range"] {
     width: 100%;
@@ -72,10 +77,11 @@
   }
 
   .limitLower {
-      padding-left: calc(var(--lowerLimit) * 1px);
+      padding-left: calc( (var(--lowerLimit) * 1px) + 12px ); /* TODO: prevent this from slowly adjusting width of main slider before intended */
+      /* padding-left: calc( (var(--lowerLimit) * 1px)); */
   }
   .limitUpper {
-      padding-right: calc(var(--upperLimit) * 1px);
+      padding-right: calc((var(--upperLimit) * 1px) + 12px );
   }
 
   input[type="range"]:focus {
@@ -106,6 +112,25 @@
       );
     border-radius: 1px; /* weidly, this property must be here */
   }
+
+  input[type="range"].active-range::-webkit-slider-runnable-track {
+      background-image: linear-gradient(
+        to right,
+        transparent,
+        transparent calc(var(--thumbTouchHeight) / 2),
+        var(--accent) calc(var(--thumbTouchHeight) / 2),
+        var(--accent) 50%,
+        transparent 50%
+      ),
+      linear-gradient(
+        to left,
+        transparent,
+        transparent calc(var(--thumbTouchHeight) / 2),
+        var(--accent) calc(var(--thumbTouchHeight) / 2),
+        var(--accent) 50%,
+        transparent 50%
+      );
+  }
   input[type="range"]:focus::-webkit-slider-runnable-track {
     outline: none;
     background-image: linear-gradient(
@@ -122,6 +147,24 @@
         transparent calc(var(--thumbTouchHeight) / 2),
         var(--trackFocus) calc(var(--thumbTouchHeight) / 2),
         var(--trackFocus) 50%,
+        transparent 50%
+      );
+  }
+  input[type="range"].active-range:focus::-webkit-slider-runnable-track {
+      background-image: linear-gradient(
+        to right,
+        transparent,
+        transparent calc(var(--thumbTouchHeight) / 2),
+        var(--accent) calc(var(--thumbTouchHeight) / 2),
+        var(--accent) 50%,
+        transparent 50%
+      ),
+      linear-gradient(
+        to left,
+        transparent,
+        transparent calc(var(--thumbTouchHeight) / 2),
+        var(--accent) calc(var(--thumbTouchHeight) / 2),
+        var(--accent) 50%,
         transparent 50%
       );
   }
@@ -143,12 +186,35 @@
     );
   }
 
+  #slider--lowerLimit::-webkit-slider-thumb {
+      /* background: red; */
+
+      border-radius: 0;
+      width: 0; 
+    height: 0; 
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    
+    border-left: 24px solid green;
+  }
+
+  #slider--upperLimit::-webkit-slider-thumb {
+      /* background: red; */
+
+      border-radius: 0;
+      width: 0; 
+    height: 0; 
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    
+    border-right: 24px solid green;
+  }
+
   input[type="range"]::-moz-range-track {
     width: 100%;
     height: var(--trackHeight);
     border-radius: 1px;
     cursor: pointer;
-    background-color: red;
     background-image: linear-gradient(
         to right,
         var(--sliderComponentBg),
@@ -184,6 +250,28 @@
         transparent 50%
       );
   }
+
+  input[type="range"].active-slider::-moz-range-track,
+  input[type="range"].active-slider:focus::-moz-range-track {
+      background-image: linear-gradient(
+        to right,
+        var(--sliderComponentBg),
+        var(--sliderComponentBg) 20px,
+        var(--accent) 20px,
+        var(--accent) 50%,
+        transparent 50%
+      ),
+      linear-gradient(
+        to left,
+        var(--sliderComponentBg),
+        var(--sliderComponentBg) 20px,
+        var(--accent) 20px,
+        var(--accent) 50%,
+        transparent 50%
+      );
+  }
+
+
   input[type="range"]::-moz-focus-outer {
     border: 0;
   }
