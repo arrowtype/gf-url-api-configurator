@@ -11,7 +11,7 @@
   let minLimitWidth = 12;
   let minLimitPos;
 
-  let maxLimitWidth;
+  let maxLimitWidth = 12;
   let maxLimitPos;
 
   import { createEventDispatcher } from "svelte";
@@ -68,7 +68,6 @@
     let widthStep = (sliderWidth - t.offsetWidth) / ((max - min) / step);
     newpos = Math.round(newpos / widthStep) * widthStep;
 
-    // t.style.left = newpos + "px"; // not needed
     thumbPos = newpos
 
     calcValue();
@@ -89,8 +88,6 @@
 
         minLimitPos = newpos
 
-        console.log(minLimitPos)
-        t.style.left = newpos + "px";
     }
 
 
@@ -124,7 +121,7 @@
 <svelte:window on:resize={resize} />
 
 <div class="custom-slider">
-  <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+  <div class="custom-slider-track main-track" bind:offsetWidth={sliderWidth}>
     <div
       id="mainThumb"
       class="thumb main-thumb"
@@ -147,26 +144,18 @@
     </svg>
   </div>
 </div>
-<!-- <div class="custom-slider">
-  <div
-    class="custom-slider-track"
-    bind:offsetWidth={sliderWidth}
-    >
-    <div id="upperLimit" class="limiter">
-        
-    </div>
-    <div 
-        id="upperLimit"
-        class="thumb" 
-        style="left: {thumbPos ? thumbPos : (value - min) / (max-min) * (sliderWidth-thumbWidth)}px" 
+<div class="custom-slider">
+  <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+    <svg 
+        class="thumb limiter" 
+        style="left: {maxLimitPos ? maxLimitPos : 100}%"
         on:mousedown={sliderdown} 
-        bind:offsetWidth={minLimitWidth}
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {maxLimitWidth} 20" height="100%" width="100%"
         >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16" height="100%" width="100%"><polygon points="0,0 0,16 10,8"/></svg>
-    </div>
-
+        <polygon id="upperLimit" points="{maxLimitWidth},0  0,10 {maxLimitWidth},20 "/>
+    </svg>
   </div>
-</div> -->
+</div>
 
 <style>
   :root {
@@ -187,8 +176,10 @@
   .custom-slider-track {
     width: 100%;
     height: 100%;
-    background: var(--trackBg);
     position: relative;
+  }
+  .main-track {
+    background: var(--buttonBg);
   }
   .thumb {
     width: var(--thumbWidth);
