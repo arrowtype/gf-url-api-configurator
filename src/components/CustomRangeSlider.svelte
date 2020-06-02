@@ -74,7 +74,7 @@
   }
 
     function limiterMove(e) {
-        console.log("limiter!")
+        // console.log("limiter!", e.target)
         const t = currentThumb;
         let newpos = e.clientX - t.parentElement.offsetLeft - t.clientWidth / 2;
 
@@ -86,7 +86,13 @@
         let widthStep = (sliderWidth - t.clientWidth) / ((max - min) / step);
         newpos = Math.round(newpos / widthStep) * widthStep;
 
-        minLimitPos = newpos
+        if (t.id === "minLimitThumb") {
+            minLimitPos = newpos/sliderWidth * 100
+            console.log(minLimitPos)
+        } else {
+          maxLimitPos = (newpos/sliderWidth) * 100
+            console.log(maxLimitPos)
+        }
 
     }
 
@@ -135,8 +141,9 @@
 <div class="custom-slider">
   <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
     <svg 
+        id="minLimitThumb"
         class="thumb limiter" 
-        style="left: {minLimitPos ? minLimitPos : 0}px"
+        style="left: {minLimitPos ? minLimitPos : 0}%"
         on:mousedown={sliderdown} 
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {minLimitWidth} 20" height="100%" width="100%"
         >
@@ -146,7 +153,8 @@
 </div>
 <div class="custom-slider">
   <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
-    <svg 
+    <svg
+        id="maxLimitThumb"
         class="thumb limiter" 
         style="left: {maxLimitPos ? maxLimitPos : 100}%"
         on:mousedown={sliderdown} 
