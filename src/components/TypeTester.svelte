@@ -1,6 +1,4 @@
 <script>
-    import Slider from './Slider.svelte'
-    import RangeSlider from './RangeSlider.svelte'
     import CustomRangeSlider from './CustomRangeSlider.svelte'
 
     export let wghtInput = '700';

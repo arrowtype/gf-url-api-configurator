@@ -8,11 +8,16 @@
   let thumbWidth;
   let thumbPos;
 
-  let minLimitWidth = 12;
+  let minLimitWidth = 16;
   let minLimitPos;
 
-  let maxLimitWidth = 12;
+  let maxLimitWidth = 16;
   let maxLimitPos;
+
+  let minLimit = 0;
+  let maxLimit = 0;
+  let minLimitPx = 0;
+  let maxLimitPx = 0;
 
   import { createEventDispatcher } from "svelte";
 
@@ -54,6 +59,11 @@
     }
   }
 
+  // ways to simplify:
+    // 1. use CSS to translate the slider left by 50%, so that its width needn’t be caculated in JS
+    // 2. calculate and apply position by %, so it can stay constant it window width changes
+    // 3. make min/max limiters into divs (and just little circles), rather than SVGs
+
   function slidermove(e) {
 
     const t = currentThumb;
@@ -73,28 +83,39 @@
     calcValue();
   }
 
-    function limiterMove(e) {
-        // console.log("limiter!", e.target)
-        const t = currentThumb;
-        let newpos = e.clientX - t.parentElement.offsetLeft - t.clientWidth / 2;
+  function limiterMove(e) {
+      // console.log("limiter!", e.target)
+      const t = currentThumb;
+      let id = t.id
+      let newpos = e.clientX - t.parentElement.offsetLeft - t.clientWidth / 2;
 
-        if (newpos < 0) {
-            newpos = 0;
-        } else if (newpos > t.parentElement.offsetWidth - t.clientWidth) {
-            newpos = t.parentElement.offsetWidth - t.clientWidth;
-        }
-        let widthStep = (sliderWidth - t.clientWidth) / ((max - min) / step);
-        newpos = Math.round(newpos / widthStep) * widthStep;
+      if (newpos < 0 && id === "minLimitThumb") {
+          newpos = 0;
+      } else if (newpos < 0 && id === "maxLimitThumb") {
+        newpos = 0
+      } else if (newpos > t.parentElement.offsetWidth - t.clientWidth && id === "minLimitThumb") {
+          newpos = t.parentElement.offsetWidth - t.clientWidth;
+      } 
+      
+      // // TODO: make maxLimit thumb work better
+      // else if (newpos > 0 && id === "minLimitThumb") {
+      //   newpos = 100;
+      // }
+      
+      // else if (newpos > t.parentElement.offsetWidth - t.clientWidth && id === "maxLimitThumb") {
 
-        if (t.id === "minLimitThumb") {
-            minLimitPos = newpos/sliderWidth * 100
-            console.log(minLimitPos)
-        } else {
-          maxLimitPos = (newpos/sliderWidth) * 100
-            console.log(maxLimitPos)
-        }
+      let widthStep = (sliderWidth - t.clientWidth) / ((max - min) / step);
+      newpos = Math.round(newpos / widthStep) * widthStep;
 
-    }
+      if (t.id === "minLimitThumb") {
+          minLimitPos = newpos/sliderWidth * 100
+          recalc()
+      } else {
+        maxLimitPos = (newpos/sliderWidth) * 100
+          recalc()
+      }
+
+  }
 
 
   // from https://stackoverflow.com/a/27865285/3704306
@@ -122,72 +143,98 @@
   function resize() {
     thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
   }
+
+
+  const calcLowerLimitPercent = () => { minLimitPx = sliderWidth * ((minLimit - min) / (max - min)) }
+  const calcUpperLimitPercent = () => { maxLimitPx = sliderWidth * ((max - maxLimit) / (max - min)) }
+    
+  const recalc = () => {
+      calcLowerLimitPercent()
+      calcUpperLimitPercent()
+      value < minLimit ? value = minLimit : value;
+      value > maxLimit ? value = maxLimit: value ;
+  }
 </script>
 
 <svelte:window on:resize={resize} />
 
-<div class="custom-slider">
-  <div class="custom-slider-track main-track" bind:offsetWidth={sliderWidth}>
-    <div
-      id="mainThumb"
-      class="thumb main-thumb"
-      style="left: {thumbPos ? thumbPos : ((value - min) / (max - min)) * (sliderWidth - thumbWidth)}px"
-      on:mousedown={sliderdown}
-      bind:clientWidth={thumbWidth}>
-      {value}
+<div class="combined-slider-container">
+  <div class="custom-slider">
+    <div class="custom-slider-track main-track" style="--minLimitPx: {minLimitPx}; --maxLimitPx: {maxLimitPx};" bind:offsetWidth={sliderWidth}>
+      <div
+        id="mainThumb"
+        class="thumb main-thumb"
+        style="left: {thumbPos ? thumbPos : ((value - min) / (max - min)) * (sliderWidth - thumbWidth)}px"
+        on:mousedown={sliderdown}
+        bind:clientWidth={thumbWidth}>
+        {value}
+      </div>
     </div>
   </div>
-</div>
-<div class="custom-slider">
-  <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
-    <svg 
-        id="minLimitThumb"
-        class="thumb limiter" 
-        style="left: {minLimitPos ? minLimitPos : 0}%"
-        on:mousedown={sliderdown} 
-        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {minLimitWidth} 20" height="100%" width="100%"
-        >
-        <polygon id="lowerLimit" points="0,0 0,20 {minLimitWidth},10"/>
-    </svg>
+  <div class="custom-slider">
+    <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+      <svg 
+          id="minLimitThumb"
+          class="thumb limiter" 
+          style="left: {minLimitPos ? minLimitPos : 0}%"
+          on:mousedown={sliderdown} 
+          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 32" height="100%" width="100%"
+          >
+          <polygon id="lowerLimit" points="0,4 0,28 14,16"/>
+      </svg>
+    </div>
   </div>
-</div>
-<div class="custom-slider">
-  <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
-    <svg
-        id="maxLimitThumb"
-        class="thumb limiter" 
-        style="left: {maxLimitPos ? maxLimitPos : 100}%"
-        on:mousedown={sliderdown} 
-        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {maxLimitWidth} 20" height="100%" width="100%"
-        >
-        <polygon id="upperLimit" points="{maxLimitWidth},0  0,10 {maxLimitWidth},20 "/>
-    </svg>
+  <div class="custom-slider">
+    <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+      <svg
+          id="maxLimitThumb"
+          class="thumb limiter" 
+          style="left: {maxLimitPos ? maxLimitPos : 100}%"
+          on:mousedown={sliderdown} 
+          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {maxLimitWidth} 32" height="100%" width="100%"
+          >
+          <!-- <polygon id="upperLimit" points="{maxLimitWidth},0  0,10 {maxLimitWidth},20 "/> -->
+          <polygon id="upperLimit" points="14,4 0,16 14,28 "/>
+      </svg>
+    </div>
   </div>
 </div>
 
 <style>
   :root {
+    --minLimitPx: 0px;
+    --maxLimitPx: 0px;
     --trackHeight: 2px;
     --controlHeight: 1.5rem;
     --thumbWidth: 3rem;
-    --limiterHeight: 20px;
+    --limiterHeight: 32px;
     --limiterWidth: 12px;
 
     --trackBg: #eee;
     /* --buttonBg: #0050ff; */
     --buttonBg: #5e91ff;
   }
-  .custom-slider {
-    height: var(--trackHeight);
+
+  .combined-slider-container {
+    display: grid;
+    grid-template-rows: 1fr;
+    align-items: center;
     margin: 2rem;
+  }
+  .custom-slider {
+    height: 0; /* allows things to properly overlap */
   }
   .custom-slider-track {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: var(--trackHeight);
     position: relative;
   }
   .main-track {
+    height: var(--trackHeight);
     background: var(--buttonBg);
+    margin-left: var(--lowerLimit)px;
+    margin-right: var(--upperLimit)px;
   }
   .thumb {
     width: var(--thumbWidth);
