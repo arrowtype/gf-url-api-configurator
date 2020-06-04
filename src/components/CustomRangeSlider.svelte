@@ -4,8 +4,8 @@
   export let max = 1000;
   export let step = 10;
 
-  export let currentMin = 300;
-  export let currentMax = 1000;
+  export let currentMin = min;
+  export let currentMax = max;
 
   let sliderWidth;
   let thumbWidth;
@@ -17,8 +17,6 @@
   let maxLimitWidth = 16;
   let maxLimitPos;
 
-  let minLimit = 0;
-  let maxLimit = 0;
   let minLimitPx = 0;
   let maxLimitPx = 0;
 
@@ -71,20 +69,18 @@
 
     const t = currentThumb;
     let halfSliderWidth =  t.offsetWidth / 2
-
-    
-
-    let newpos = e.clientX - t.parentElement.offsetLeft - halfSliderWidth;
+    // let newpos = e.clientX - t.parentElement.offsetLeft - halfSliderWidth;
+    let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth;
     if (newpos < 0) {
         newpos = 0;
-    } else if (newpos > t.parentElement.offsetWidth - halfSliderWidth) {
-        newpos = t.parentElement.offsetWidth - halfSliderWidth;
+    } else if (newpos > t.parentElement.offsetWidth - t.offsetWidth) {
+        newpos = t.parentElement.offsetWidth - t.offsetWidth;
     }
     // adjust movement by step precision
-    let widthStep = (sliderWidth - halfSliderWidth) / ((max - min) / step);
+    let widthStep = (sliderWidth - t.offsetWidth) / ((max - min) / step);
     newpos = Math.round(newpos / widthStep) * widthStep;
 
-    thumbPos = newpos / sliderWidth * 100 // convert to %
+    thumbPos = newpos / (sliderWidth) * 100 // convert to %
 
     calcValue();
   }
@@ -117,12 +113,15 @@
       if (t.id === "minLimitThumb") {
           minLimitPos = newpos/sliderWidth * 100
           currentMin = round(newpos/sliderWidth * (max-min) + min)
-          recalc()
       } else {
-        maxLimitPos = (newpos/sliderWidth) * 100
+          maxLimitPos = (newpos/sliderWidth) * 100
+
+          console.log(t)
+          console.log(newpos, sliderWidth)
           currentMax = round(newpos/sliderWidth * (max-min) + min)
-          recalc()
       }
+
+      recalc()
 
   }
 
@@ -144,42 +143,34 @@
   }
 
   function calcValue() {
-    value = round(min + (max - min) * thumbPos/100);
+    let percentAvailable = 100 - thumbWidth/sliderWidth*100
+    let thumbAt = thumbPos / percentAvailable
+
+    console.log(thumbAt)
+
+    if (thumbAt === 0) {
+      value = currentMin
+    } else {
+      value = round((currentMax - currentMin)* thumbAt + currentMin); //calc percentage taken of sliderwidth by thumbwidth
+    }
     sendValue();
   }
-
-  function resize() {
-    thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
-  }
-
-  const calcLowerLimitPercent = () => { minLimitPx = sliderWidth * ((minLimit - min) / (max - min)) }
-  const calcUpperLimitPercent = () => { maxLimitPx = sliderWidth * ((max - maxLimit) / (max - min)) }
     
   const recalc = () => {
-      calcLowerLimitPercent()
-      calcUpperLimitPercent()
-      value < minLimit ? value = minLimit : value;
-      value > maxLimit ? value = maxLimit: value ;
+    value < min ? value = min : value;
+    value > max ? value = max: value ;
   }
+
+  // MAYBE NOT NEEDED?
+  // function resize() {
+  //   thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
+  // }
 </script>
 
-<svelte:window on:resize={resize} />
+<!-- <svelte:window on:resize={resize} /> -->
 
 <div class="combined-slider-container">
-  <div class="custom-slider">
-    <div class="custom-slider-track main-track" style="--minLimitPx: {minLimitPx}; --maxLimitPx: {maxLimitPx};" bind:offsetWidth={sliderWidth}>
-      <div
-        id="mainThumb"
-        class="thumb main-thumb"
-        style="left: {thumbPos? thumbPos : (value - min) / (max - min) * 100}%"
-        on:mousedown={sliderdown}
-        bind:clientWidth={thumbWidth}
-        tabindex="0"
-        >
-        {value}
-      </div>
-    </div>
-  </div>
+  
   <div class="custom-slider">
     <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
       <div 
@@ -193,8 +184,23 @@
       </div>
     </div>
   </div>
+  
   <div class="custom-slider">
-    <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+    <div class="custom-slider-track main-track" style="--minLimitPos: {minLimitPos}; --maxLimitPos: {maxLimitPos};" bind:offsetWidth={sliderWidth}>
+      <div
+        id="mainThumb"
+        class="thumb main-thumb"
+        style="left: {thumbPos? thumbPos : (value - min) / (max - min) * 100}%"
+        on:mousedown={sliderdown}
+        bind:clientWidth={thumbWidth}
+        tabindex="0"
+        >
+        {value}
+      </div>
+    </div>
+  </div>
+  <div class="custom-slider">
+    <div class="" bind:offsetWidth={sliderWidth}>
       <div
           id="maxLimitThumb"
           class="thumb limiter" 
@@ -210,8 +216,8 @@
 
 <style>
   :root {
-    --minLimitPx: 0px;
-    --maxLimitPx: 0px;
+    --minLimitPos: 0;
+    --maxLimitPos: 100;
     --trackHeight: 2px;
     --controlHeight: 1.5rem;
     --thumbWidth: 3rem;
@@ -238,12 +244,18 @@
     /* height: 100%; */
     height: var(--trackHeight);
     position: relative;
+    background: var(--trackBg);
   }
   .main-track {
     height: var(--trackHeight);
     background: var(--buttonBg);
-    margin-left: var(--lowerLimit)px;
-    margin-right: var(--upperLimit)px;
+    margin-left: 0%;
+    margin-left: calc(1% * var(--minLimitPos));
+    /* margin-right: var(--upperLimit)px; */
+
+    /* width: calc(100% - (1% * var(--maxLimitPos))); */
+    width: 100%;
+    width: calc(1% * (var(--maxLimitPos) - var(--minLimitPos)));
   }
   .thumb {
     position: absolute;
@@ -258,17 +270,17 @@
     cursor: ew-resize;
     /* transform: translateX(-50%); */
   }
-  .active {
-    background: #ff0097;
-    cursor: grab;
-    border: red 2px solid;
-  }
 
   #mainThumb {
     width: var(--thumbWidth);
     height: var(--controlHeight);
     display: grid;
     align-items: center;
+    cursor: grab;
+  }
+  #mainThumb:focus {
+    cursor: grabbing;
+    outline: none;
   }
 
   .limiter {

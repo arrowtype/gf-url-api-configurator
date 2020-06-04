@@ -1,5 +1,6 @@
 <script>
     import CustomRangeSlider from './CustomRangeSlider.svelte'
+    // import RangeSlider from './RangeSlider.svelte'
 
     export let wghtInput = '700';
     export let wghtMinInput = 300;
@@ -34,8 +35,7 @@
 <!-- <Slider id="wghtSlider" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
 
 
-<!-- <RangeSlider id="wghtSlider2" label="wght" bind:value={wghtInput} min={wghtMin} max={wghtMax} on:change={updateWght} on:input={updateWght}/> -->
-<!-- <RangeSlider id="slntSlider" label="slnt" bind:value={slntInput} min={slntMin} max={slntMax} on:change={updateSlnt} on:input={updateSlnt}/> -->
+<!-- <RangeSlider id="wghtSlider2" label="wght" bind:value={wghtInput} min={wghtMinInput} max={wghtMaxInput} on:change={updateWght} on:input={updateWght}/> -->
 
 <CustomRangeSlider  on:thumbSlide={handleWght} min={wghtMinInput} max={wghtMaxInput} />
 
