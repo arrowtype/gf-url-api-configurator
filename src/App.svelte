@@ -1,12 +1,13 @@
 <script>
 	import TypeTester from './components/TypeTester.svelte'
-	import { wght } from './stores.js';
+	import { wght, minWght, maxWght } from './stores.js';
 
-	let wghtVal;
 </script>
 
 <main>
 	<p>wght is {$wght}</p>
+	<p>minWght is {$minWght}</p>
+	<p>maxWght is {$maxWght}</p>
 	<TypeTester />
 </main>
 

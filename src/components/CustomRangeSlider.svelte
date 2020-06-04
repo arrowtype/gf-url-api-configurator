@@ -4,6 +4,9 @@
   export let max = 1000;
   export let step = 10;
 
+  export let currentMin = 300;
+  export let currentMax = 1000;
+
   let sliderWidth;
   let thumbWidth;
   let thumbPos;
@@ -23,9 +26,12 @@
 
   const dispatch = createEventDispatcher();
 
+  // TODO: fix min & max stores
   function sendValue() {
     dispatch("thumbSlide", {
-      number: value
+      number: value,
+      minNum: min,
+      maxNum: max
     });
   }
 
@@ -58,13 +64,15 @@
 
   // ways to simplify:
     // 1. use CSS to translate the slider left by 50%, so that its width needn’t be caculated in JS
-    // 2. calculate and apply position by %, so it can stay constant it window width changes
+    // 2. calculate and apply position by %, so it can stay constant it window width changes - DONE
     // 3. make min/max limiters into divs (and just little circles), rather than SVGs
 
   function slidermove(e) {
 
     const t = currentThumb;
     let halfSliderWidth =  t.offsetWidth / 2
+
+    
 
     let newpos = e.clientX - t.parentElement.offsetLeft - halfSliderWidth;
     if (newpos < 0) {
@@ -87,26 +95,32 @@
       let id = t.id
       let newpos = e.clientX - t.parentElement.offsetLeft;
 
-      if (newpos < 0 && id === "minLimitThumb") {
+      let maxMinPos = t.parentElement.offsetWidth - t.clientWidth - thumbWidth
+      let minMaxPos = t.clientWidth + thumbWidth
+
+      if (id === "minLimitThumb" && newpos < 0) {
           newpos = 0;
-      } else if (newpos < 0 && id === "maxLimitThumb") {
-        newpos = 0
-      } else if (newpos > t.parentElement.offsetWidth - t.clientWidth && id === "minLimitThumb") {
-          newpos = t.parentElement.offsetWidth - t.clientWidth;
       } 
-      
-      // // TODO: make maxLimit thumb work better
-      // else if (newpos > 0 && id === "minLimitThumb") {newpos = 100;}
-      // else if (newpos > t.parentElement.offsetWidth - t.clientWidth && id === "maxLimitThumb") {
+      else if (id === "minLimitThumb" && newpos > maxMinPos) {
+          newpos = maxMinPos;
+      } 
+      else if (id === "maxLimitThumb" && newpos < minMaxPos) {
+        newpos = minMaxPos
+      }
+      else if (id === "maxLimitThumb" && newpos > t.parentElement.offsetWidth) {
+        newpos = t.parentElement.offsetWidth
+      }
 
       let widthStep = (sliderWidth) / ((max - min) / step);
       newpos = Math.round(newpos / widthStep) * widthStep;
 
       if (t.id === "minLimitThumb") {
           minLimitPos = newpos/sliderWidth * 100
+          currentMin = round(newpos/sliderWidth * (max-min) + min)
           recalc()
       } else {
         maxLimitPos = (newpos/sliderWidth) * 100
+          currentMax = round(newpos/sliderWidth * (max-min) + min)
           recalc()
       }
 
@@ -138,7 +152,6 @@
     thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
   }
 
-
   const calcLowerLimitPercent = () => { minLimitPx = sliderWidth * ((minLimit - min) / (max - min)) }
   const calcUpperLimitPercent = () => { maxLimitPx = sliderWidth * ((max - maxLimit) / (max - min)) }
     
@@ -160,7 +173,9 @@
         class="thumb main-thumb"
         style="left: {thumbPos? thumbPos : (value - min) / (max - min) * 100}%"
         on:mousedown={sliderdown}
-        bind:clientWidth={thumbWidth}>
+        bind:clientWidth={thumbWidth}
+        tabindex="0"
+        >
         {value}
       </div>
     </div>
@@ -171,8 +186,10 @@
           id="minLimitThumb"
           class="thumb limiter" 
           style="left: {minLimitPos ? minLimitPos : 0}%"
-          on:mousedown={sliderdown} 
+          on:mousedown={sliderdown}
+          tabindex="0" 
           >
+          <span>{currentMin}</span>
       </div>
     </div>
   </div>
@@ -183,7 +200,9 @@
           class="thumb limiter" 
           style="left: {maxLimitPos ? maxLimitPos : 100}%"
           on:mousedown={sliderdown} 
+          tabindex="0"
           >
+          <span>{currentMax}</span>
       </div>
     </div>
   </div>
@@ -209,7 +228,7 @@
     grid-template-rows: 1fr;
     align-items: center;
     padding: 2rem;
-    border: red 1px solid;
+    border: black 1px solid;
   }
   .custom-slider {
     height: 0; /* allows things to properly overlap */
@@ -236,13 +255,16 @@
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
-    transform: translateX(-50%);
+    cursor: ew-resize;
+    /* transform: translateX(-50%); */
   }
-  .thumb.active {
+  .active {
     background: #ff0097;
+    cursor: grab;
+    border: red 2px solid;
   }
 
-  .main-thumb {
+  #mainThumb {
     width: var(--thumbWidth);
     height: var(--controlHeight);
     display: grid;
@@ -254,9 +276,27 @@
     width: var(--limiterWidth);
     position: absolute;
     top: calc(-1 * var(--limiterHeight) / 2 + var(--trackHeight) / 2);
-    transform: translateX(calc(-1 * var(--limiterWidth)));
+    transform: translateX(calc(-0.5 * var(--limiterWidth)));
+    display: grid;
+    justify-content: center;
+    
   }
-  .limiter polygon{
-      fill: var(--buttonBg);
+
+  .limiter span{
+    width: 5ch;
+    text-align: center;
+    font-size: .75em;
+    position: absolute;
+    top: 125%;
+    left: -66%; /* not sure why this isn’t 50% ... */
+    opacity: 0.75;
   }
+
+  .limiter:focus {
+    outline: none;
+  }
+  .limiter:focus span {
+    opacity: 1;
+  }
+
 </style>
