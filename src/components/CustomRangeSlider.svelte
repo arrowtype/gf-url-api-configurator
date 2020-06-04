@@ -33,24 +33,21 @@
 
   function sliderdown(e) {
 
-    e.target.tagName === "polygon" ? e.target.parentElement.classList.add("active") : e.target.classList.add("active");
-    e.target.tagName === "polygon" ? currentThumb = e.target.parentElement : currentThumb = e.target;
+    currentThumb = e.target
 
-    // bind late
+    currentThumb.classList.add("active");
+
     if (currentThumb.classList.contains("limiter")) {
-        console.log("yup")
         document.addEventListener("mousemove", limiterMove, true)
     } else {
-        console.log("nope")
         document.addEventListener("mousemove", slidermove, true)
     }
     document.addEventListener("mouseup", sliderup, true);
   }
 
   function sliderup(e) {
-    // document.querySelector(".thumb").classList.remove("active");
     currentThumb.classList.remove("active");
-    // unbind
+
     document.removeEventListener("mouseup", sliderup, true);
     if (currentThumb.classList.contains("limiter")) {
         document.removeEventListener("mousemove", limiterMove, true)
@@ -67,18 +64,19 @@
   function slidermove(e) {
 
     const t = currentThumb;
+    let halfSliderWidth =  t.offsetWidth / 2
 
-    let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth / 2;
+    let newpos = e.clientX - t.parentElement.offsetLeft - halfSliderWidth;
     if (newpos < 0) {
         newpos = 0;
-    } else if (newpos > t.parentElement.offsetWidth - t.offsetWidth) {
-        newpos = t.parentElement.offsetWidth - t.offsetWidth;
+    } else if (newpos > t.parentElement.offsetWidth - halfSliderWidth) {
+        newpos = t.parentElement.offsetWidth - halfSliderWidth;
     }
     // adjust movement by step precision
-    let widthStep = (sliderWidth - t.offsetWidth) / ((max - min) / step);
+    let widthStep = (sliderWidth - halfSliderWidth) / ((max - min) / step);
     newpos = Math.round(newpos / widthStep) * widthStep;
 
-    thumbPos = newpos
+    thumbPos = newpos / sliderWidth * 100 // convert to %
 
     calcValue();
   }
@@ -87,7 +85,7 @@
       // console.log("limiter!", e.target)
       const t = currentThumb;
       let id = t.id
-      let newpos = e.clientX - t.parentElement.offsetLeft - t.clientWidth / 2;
+      let newpos = e.clientX - t.parentElement.offsetLeft;
 
       if (newpos < 0 && id === "minLimitThumb") {
           newpos = 0;
@@ -98,13 +96,10 @@
       } 
       
       // // TODO: make maxLimit thumb work better
-      // else if (newpos > 0 && id === "minLimitThumb") {
-      //   newpos = 100;
-      // }
-      
+      // else if (newpos > 0 && id === "minLimitThumb") {newpos = 100;}
       // else if (newpos > t.parentElement.offsetWidth - t.clientWidth && id === "maxLimitThumb") {
 
-      let widthStep = (sliderWidth - t.clientWidth) / ((max - min) / step);
+      let widthStep = (sliderWidth) / ((max - min) / step);
       newpos = Math.round(newpos / widthStep) * widthStep;
 
       if (t.id === "minLimitThumb") {
@@ -117,7 +112,7 @@
 
   }
 
-
+  // round a number to a certain length of decimal points
   // from https://stackoverflow.com/a/27865285/3704306
   function precision(a) {
     if (!isFinite(a)) return 0;
@@ -135,8 +130,7 @@
   }
 
   function calcValue() {
-    let ratio = thumbPos / (sliderWidth - thumbWidth);
-    value = round(min + (max - min) * ratio);
+    value = round(min + (max - min) * thumbPos/100);
     sendValue();
   }
 
@@ -164,7 +158,7 @@
       <div
         id="mainThumb"
         class="thumb main-thumb"
-        style="left: {thumbPos ? thumbPos : ((value - min) / (max - min)) * (sliderWidth - thumbWidth)}px"
+        style="left: {thumbPos? thumbPos : (value - min) / (max - min) * 100}%"
         on:mousedown={sliderdown}
         bind:clientWidth={thumbWidth}>
         {value}
@@ -173,29 +167,24 @@
   </div>
   <div class="custom-slider">
     <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
-      <svg 
+      <div 
           id="minLimitThumb"
           class="thumb limiter" 
           style="left: {minLimitPos ? minLimitPos : 0}%"
           on:mousedown={sliderdown} 
-          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 32" height="100%" width="100%"
           >
-          <polygon id="lowerLimit" points="0,4 0,28 14,16"/>
-      </svg>
+      </div>
     </div>
   </div>
   <div class="custom-slider">
     <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
-      <svg
+      <div
           id="maxLimitThumb"
           class="thumb limiter" 
           style="left: {maxLimitPos ? maxLimitPos : 100}%"
           on:mousedown={sliderdown} 
-          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {maxLimitWidth} 32" height="100%" width="100%"
           >
-          <!-- <polygon id="upperLimit" points="{maxLimitWidth},0  0,10 {maxLimitWidth},20 "/> -->
-          <polygon id="upperLimit" points="14,4 0,16 14,28 "/>
-      </svg>
+      </div>
     </div>
   </div>
 </div>
@@ -207,8 +196,8 @@
     --trackHeight: 2px;
     --controlHeight: 1.5rem;
     --thumbWidth: 3rem;
-    --limiterHeight: 32px;
-    --limiterWidth: 12px;
+    --limiterHeight: 16px;
+    --limiterWidth: 16px;
 
     --trackBg: #eee;
     /* --buttonBg: #0050ff; */
@@ -219,7 +208,8 @@
     display: grid;
     grid-template-rows: 1fr;
     align-items: center;
-    margin: 2rem;
+    padding: 2rem;
+    border: red 1px solid;
   }
   .custom-slider {
     height: 0; /* allows things to properly overlap */
@@ -237,30 +227,31 @@
     margin-right: var(--upperLimit)px;
   }
   .thumb {
-    width: var(--thumbWidth);
-    height: var(--controlHeight);
     position: absolute;
     top: calc(-1 * var(--controlHeight) / 2 + var(--trackHeight) / 2);
     left: 0;
+    background: var(--buttonBg);
+    border-radius: 99px;
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
-  }
-
-  .main-thumb {
-    display: grid;
-    align-items: center;
-    background: var(--buttonBg);
-    border-radius: 99px;
+    transform: translateX(-50%);
   }
   .thumb.active {
     background: #ff0097;
   }
 
+  .main-thumb {
+    width: var(--thumbWidth);
+    height: var(--controlHeight);
+    display: grid;
+    align-items: center;
+  }
+
   .limiter {
-    width: var(--controlHeight);
     height: var(--limiterHeight);
+    width: var(--limiterWidth);
     position: absolute;
     top: calc(-1 * var(--limiterHeight) / 2 + var(--trackHeight) / 2);
     transform: translateX(calc(-1 * var(--limiterWidth)));
