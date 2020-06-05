@@ -10,6 +10,7 @@
   let sliderWidth;
   let thumbWidth;
   let thumbPos;
+  let limiterWidth;
 
   let minLimitWidth = 16;
   let minLimitPos;
@@ -34,6 +35,10 @@
   }
 
   let currentThumb;
+
+  // TODO: add keyboard handling
+    // When thumb is in focus
+    // arrow keys will increment it (check behavior of default range inputs)
 
   function sliderdown(e) {
 
@@ -60,21 +65,16 @@
     }
   }
 
-  // ways to simplify:
-    // 1. use CSS to translate the slider left by 50%, so that its width needn’t be caculated in JS
-    // 2. calculate and apply position by %, so it can stay constant it window width changes - DONE
-    // 3. make min/max limiters into divs (and just little circles), rather than SVGs
-
   function slidermove(e) {
 
     const t = currentThumb;
     let halfSliderWidth =  t.offsetWidth / 2
-    // let newpos = e.clientX - t.parentElement.offsetLeft - halfSliderWidth;
+
     let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth;
     if (newpos < 0) {
         newpos = 0;
-    } else if (newpos > t.parentElement.offsetWidth - t.offsetWidth) {
-        newpos = t.parentElement.offsetWidth - t.offsetWidth;
+    } else if (newpos > sliderWidth - t.offsetWidth) {
+        newpos = sliderWidth - t.offsetWidth;
     }
     // adjust movement by step precision
     let widthStep = (sliderWidth - t.offsetWidth) / ((max - min) / step);
@@ -121,7 +121,8 @@
           currentMax = round(newpos/sliderWidth * (max-min) + min)
       }
 
-      recalc()
+      // recalc()
+      calcValue()
 
   }
 
@@ -143,7 +144,7 @@
   }
 
   function calcValue() {
-    let percentAvailable = 100 - thumbWidth/sliderWidth*100
+    let percentAvailable = 100 - thumbWidth/sliderWidth * 100
     let thumbAt = thumbPos / percentAvailable
 
     console.log(thumbAt)
@@ -200,7 +201,7 @@
     </div>
   </div>
   <div class="custom-slider">
-    <div class="" bind:offsetWidth={sliderWidth}>
+    <div class="custom-slider-track transparent">
       <div
           id="maxLimitThumb"
           class="thumb limiter" 
@@ -246,8 +247,13 @@
     position: relative;
     background: var(--trackBg);
   }
+
+  .transparent {
+    background-color: transparent;
+    pointer-events: none;
+  }
+
   .main-track {
-    height: var(--trackHeight);
     background: var(--buttonBg);
     margin-left: 0%;
     margin-left: calc(1% * var(--minLimitPos));
@@ -291,7 +297,7 @@
     transform: translateX(calc(-0.5 * var(--limiterWidth)));
     display: grid;
     justify-content: center;
-    
+    pointer-events: all;
   }
 
   .limiter span{

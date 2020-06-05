@@ -6,8 +6,8 @@
 
 <main>
 	<p>wght is {$wght}</p>
-	<p>minWght is {$minWght}</p>
-	<p>maxWght is {$maxWght}</p>
+	<!-- <p>minWght is {$minWght}</p> -->
+	<!-- <p>maxWght is {$maxWght}</p> -->
 	<TypeTester />
 </main>
 
@@ -15,7 +15,6 @@
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
 	}
 

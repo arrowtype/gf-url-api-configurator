@@ -1,6 +1,5 @@
 <script>
     import CustomRangeSlider from './CustomRangeSlider.svelte'
-    // import RangeSlider from './RangeSlider.svelte'
 
     export let wghtInput = '700';
     export let wghtMinInput = 300;
@@ -42,9 +41,10 @@
 <style>
 :root {
     --wght: 800;
+    --CASL: 1;
 }
     span {
         font-size: 15vw;
-        font-variation-settings: 'wght' var(--wght);
+        font-variation-settings: 'CASL' var(--wght), 'wght' var(--wght);
     }
 </style>
