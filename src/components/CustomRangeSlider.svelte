@@ -18,9 +18,6 @@
   let maxLimitWidth = 16;
   let maxLimitPos;
 
-  let minLimitPx = 0;
-  let maxLimitPx = 0;
-
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -35,10 +32,6 @@
   }
 
   let currentThumb;
-
-  // TODO: add keyboard handling
-    // When thumb is in focus
-    // arrow keys will increment it (check behavior of default range inputs)
 
   function sliderdown(e) {
 
@@ -70,6 +63,7 @@
     const t = currentThumb;
     let halfSliderWidth =  t.offsetWidth / 2
 
+    // gets mouse position relative to slider & control widths
     let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth;
     if (newpos < 0) {
         newpos = 0;
@@ -85,18 +79,23 @@
     calcValue();
   }
 
+  // TODO: try to not change the *width* of the main slider, but just the range of it
+    // then, set the blue track visual based on that
+
   function limiterMove(e) {
       // console.log("limiter!", e.target)
       const t = currentThumb;
       let id = t.id
       let newpos = e.clientX - t.parentElement.offsetLeft;
 
+      // calculate extremes, taking into account other controls
       let maxMinPos = t.parentElement.offsetWidth - t.clientWidth - thumbWidth
       let minMaxPos = t.clientWidth + thumbWidth
 
+      // if min limiter & mouse is left of 0
       if (id === "minLimitThumb" && newpos < 0) {
           newpos = 0;
-      } 
+      } // if min limiter & mouse is right of max
       else if (id === "minLimitThumb" && newpos > maxMinPos) {
           newpos = maxMinPos;
       } 
@@ -162,10 +161,9 @@
     value > max ? value = max: value ;
   }
 
-  // MAYBE NOT NEEDED?
-  // function resize() {
-  //   thumbPos = ((value - min) / (max - min)) * (sliderWidth - thumbWidth);
-  // }
+  // TODO: add keyboard handling
+    // When thumb is in focus
+    // arrow keys will increment it (check behavior of default range inputs)
 </script>
 
 <!-- <svelte:window on:resize={resize} /> -->
@@ -187,7 +185,12 @@
   </div>
   
   <div class="custom-slider">
-    <div class="custom-slider-track main-track" style="--minLimitPos: {minLimitPos}; --maxLimitPos: {maxLimitPos};" bind:offsetWidth={sliderWidth}>
+    <div class="custom-slider-track main-track" bind:offsetWidth={sliderWidth}
+      style="
+        margin-left: {minLimitPos}%; 
+        margin-right: {100 - maxLimitPos}%;
+        "
+      >
       <div
         id="mainThumb"
         class="thumb main-thumb"
@@ -256,12 +259,9 @@
   .main-track {
     background: var(--buttonBg);
     margin-left: 0%;
-    margin-left: calc(1% * var(--minLimitPos));
-    /* margin-right: var(--upperLimit)px; */
-
-    /* width: calc(100% - (1% * var(--maxLimitPos))); */
+    /* margin-left: calc(1% * var(--minLimitPos)); */
     width: 100%;
-    width: calc(1% * (var(--maxLimitPos) - var(--minLimitPos)));
+    /* width: calc(1% * (var(--maxLimitPos) - var(--minLimitPos))); */
   }
   .thumb {
     position: absolute;
