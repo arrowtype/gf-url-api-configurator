@@ -7,21 +7,16 @@
   export let currentMin = min;
   export let currentMax = max;
 
-  let sliderWidth;
+  let sliderWidth; // comes directly from element bind:offsetWidth
   let thumbWidth;
   let thumbPos;
-  let limiterWidth;
 
-  let minLimitWidth = 16;
-  let minLimitPos;
+  let minLimitPos = 0;
+  let maxLimitPos = 100;
 
-  let maxLimitWidth = 16;
-  let maxLimitPos;
-
+  // PASS STATE TO GLOBAL STORE
   import { createEventDispatcher } from "svelte";
-
   const dispatch = createEventDispatcher();
-
   // TODO: fix min & max stores
   function sendValue() {
     dispatch("thumbSlide", {
@@ -65,6 +60,8 @@
 
     // gets mouse position relative to slider & control widths
     let newpos = e.clientX - t.parentElement.offsetLeft - t.offsetWidth;
+    console.log(newpos > sliderWidth - t.offsetWidth)
+    console.log(sliderWidth)
     if (newpos < 0) {
         newpos = 0;
     } else if (newpos > sliderWidth - t.offsetWidth) {
@@ -115,13 +112,11 @@
       } else {
           maxLimitPos = (newpos/sliderWidth) * 100
 
-          console.log(t)
-          console.log(newpos, sliderWidth)
           currentMax = round(newpos/sliderWidth * (max-min) + min)
       }
 
       // recalc()
-      calcValue()
+      // calcValue()
 
   }
 
@@ -146,8 +141,6 @@
     let percentAvailable = 100 - thumbWidth/sliderWidth * 100
     let thumbAt = thumbPos / percentAvailable
 
-    console.log(thumbAt)
-
     if (thumbAt === 0) {
       value = currentMin
     } else {
@@ -171,7 +164,7 @@
 <div class="combined-slider-container">
   
   <div class="custom-slider">
-    <div class="custom-slider-track" bind:offsetWidth={sliderWidth}>
+    <div class="custom-slider-track">
       <div 
           id="minLimitThumb"
           class="thumb limiter" 
@@ -187,8 +180,7 @@
   <div class="custom-slider">
     <div class="custom-slider-track main-track" bind:offsetWidth={sliderWidth}
       style="
-        margin-left: {minLimitPos}%; 
-        margin-right: {100 - maxLimitPos}%;
+        margin-left: {minLimitPos}%; width: {maxLimitPos - minLimitPos}%;
         "
       >
       <div
@@ -258,10 +250,10 @@
 
   .main-track {
     background: var(--buttonBg);
-    margin-left: 0%;
-    /* margin-left: calc(1% * var(--minLimitPos)); */
-    width: 100%;
-    /* width: calc(1% * (var(--maxLimitPos) - var(--minLimitPos))); */
+    /* margin-left: 0%; */
+    /* width: 100%; */
+    /* margin-left: calc(1% * var(--minLimitPos));
+    width: calc(1% * (var(--maxLimitPos) - var(--minLimitPos))); */
   }
   .thumb {
     position: absolute;
