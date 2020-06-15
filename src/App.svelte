@@ -2,6 +2,8 @@
 	import TypeTester from './components/TypeTester.svelte'
 	import { wght, minWght, maxWght } from './stores.js';
 
+	
+
 </script>
 
 <main>
